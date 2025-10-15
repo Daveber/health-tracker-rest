@@ -20,7 +20,11 @@ class UserDAO {
     }
 
     fun findUserById(id: Int): User? {
-        return null;
+        return transaction {
+            Users.selectAll().where { Users.id eq id}
+                .map{mapToUser(it)}
+                .firstOrNull()
+        }
     }
 
     fun findUserByEmail(email: String): User? {
