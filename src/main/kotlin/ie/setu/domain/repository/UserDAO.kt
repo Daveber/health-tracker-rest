@@ -5,6 +5,10 @@ import ie.setu.domain.db.Users
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import ie.setu.utils.mapToUser
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.deleteWhere
+import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.update
 
 class UserDAO {
 
@@ -36,14 +40,26 @@ class UserDAO {
     }
 
     fun save(user: User) {
-
+        transaction {
+            Users.insert {
+                it[name] = user.name as String
+                it[email] = user.email as String
+            }
+        }
     }
 
     fun update(id: Int, user: User) {
-
+        transaction {
+            Users.update({ Users.id eq id }) {
+                it[name] = user.name as String
+                it[email] = user.email as String
+            }
+        }
     }
 
     fun delete(id: Int?) {
-
+        return transaction {
+            Users.deleteWhere { Users.id eq id as Int }
+        }
     }
 }
