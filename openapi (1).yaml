@@ -1,0 +1,237 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Health Tracker API
+  description: This API provides endpoints for handling CRUD operations on the Health Tracker data.
+  contact:
+    name: Dawid Beres
+    email: 20098868@mail.setu.ie
+    
+paths:
+  /api/users:
+    get:
+      responses:
+        200:
+          description: This is a list of the users in the app
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+    post:
+      description: Add a user to the app
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        200:
+          description: The user has been created
+          
+  /api/users/{user-id}:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/UseridPath'
+      responses:
+        200:
+          description: This is a specific user in the app
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    patch:
+      parameters:
+        - $ref: '#/components/parameters/UseridPath'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User' #Maybe remove id from schema?
+      responses:
+        200:
+          description: User has been updated
+          
+    delete:
+      parameters:
+        - $ref: '#/components/parameters/UseridPath'
+      responses:
+        200:
+          description: The user has been deleted
+          
+  /api/users/{user-id}/activities:
+    get:
+      parameters:
+      - $ref: '#/components/parameters/UseridPath'
+      responses:
+        200:
+          description: This is a list of activities for the user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Activity'
+    delete:
+      parameters:
+        - $ref: '#/components/parameters/UseridPath'
+      responses:
+        200:
+          description: User activities have been deleted
+  
+  /api/users/email/{email}:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/UseremailPath'
+      responses:
+        200:
+          description: This is a specific user in the app
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  
+  /api/activities:
+    get:
+      responses:
+        200:
+          description: List of activities
+          content:
+            application/json:
+             schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Activity'
+    
+    post:
+      description: Add an activity to the app
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Activity"
+      responses:
+        200:
+          description: The activity has been created
+                  
+  /api/activities/{activity-id}:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/ActivityidPath'
+      responses:
+        200:
+          description: Specific Activity in the app
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Activity'
+                
+    delete:
+        parameters:
+          - $ref: '#/components/parameters/ActivityidPath'
+        responses:
+          200:
+            description: Activity has been deleted
+  
+    patch:
+        parameters:
+          - $ref: '#/components/parameters/ActivityidPath'
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Activity' #Maybe remove id from schema?
+        responses:
+          200:
+            description: Activity has been updated
+              
+components:
+  parameters:
+  
+    UseridPath:
+      in: path
+      name: user-id
+      description: User id path parameter
+      required: true
+      schema:
+        type: integer
+        example: 5254
+        
+    UseremailPath:
+      in: path
+      name: email
+      description: User email path parameter
+      required: true
+      schema:
+        type: string
+        example: Joe@Joe.com
+    
+    ActivityidPath:
+      in: path
+      name: activity-id
+      description: Activity id path parameter
+      required: true
+      schema:
+        type: integer
+        example: 5432
+        
+  schemas:
+  
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 5424
+        name:
+          type: string
+          example: Joe Joe
+        email:
+          type: string
+          example: Joe@Joe.com
+          
+    Activity:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 5676
+        Description:
+          type: string
+          example: Forest Run
+        Duration:
+          type: integer
+          example: 20
+        Calories:
+          type: integer
+          example: 123
+        Started:
+          type: integer
+          example: 14
+        UserId:
+          type: integer
+          example: 5354
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+      
