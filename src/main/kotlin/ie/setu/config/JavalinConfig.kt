@@ -5,16 +5,17 @@ import ie.setu.controllers.HealthTrackerController
 import io.javalin.apibuilder.ApiBuilder.*
 
 class JavalinConfig {
-    fun startJavalinService(): Javalin {
 
         val app = Javalin.create().apply {
             exception(Exception::class.java) { e, ctx -> e.printStackTrace() }
             error(404) { ctx -> ctx.json("404 - Not Found") }
-        }.start(7001)
+        }
 
-        registerRoutes(app)
-        return app
-    }
+        fun startJavalinService(): Javalin {
+            app.start(getRemoteAssignedPort())
+            registerRoutes(app)
+            return app
+        }
 
     private fun registerRoutes(app: Javalin) {
         app.get("/api/users", HealthTrackerController::getAllUsers)
@@ -24,4 +25,17 @@ class JavalinConfig {
         app.patch("/api/users/{user-id}", HealthTrackerController::updateUser)
         app.delete("/api/users/{user-id}", HealthTrackerController::deleteUser)
     }
+
+    private fun getRemoteAssignedPort(): Int {
+        val remotePort = System.getenv("PORT")
+        return if (remotePort != null) {
+            Integer.parseInt(remotePort)
+        } else 8080
+    }
+
+    fun getJavalinService(): Javalin {
+        registerRoutes(app)
+        return app
+    }
+
 }

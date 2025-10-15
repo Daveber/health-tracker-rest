@@ -1,39 +1,41 @@
 package ie.setu.domain.repository
 
 import ie.setu.domain.User
+import ie.setu.domain.db.Users
+import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.transactions.transaction
+import ie.setu.utils.mapToUser
 
 class UserDAO {
 
-    private val users = arrayListOf<User>(
-        User(name = "Eddy", email = "eddy@gmail.com", id = 0),
-        User(name = "Daniel", email = "daniel@gmail.com", id = 1),
-        User(name = "Ava", email = "ava@notreal.com", id = 2),
-        User(name = "Dave", email = "dave@outlook.com", id = 3),
-        User(name = "Danny", email = "danny@gmail.com", id = 4)
-    )
 
     fun getAll(): ArrayList<User> {
-        return users
+        val userList: ArrayList<User> = arrayListOf()
+        transaction {
+            Users.selectAll().map {
+                userList.add(mapToUser(it))
+            }
+        }
+        return userList
     }
 
     fun findUserById(id: Int): User? {
-        return users.find { it.id == id }
+        return null;
     }
 
     fun findUserByEmail(email: String): User? {
-        return users.find { it.email == email }
+        return null;
     }
 
-    fun save(user: User){
-        users.add(user)
+    fun save(user: User) {
+
     }
 
-    fun update(id: Int, user: User){
-        val userindex = users.indexOfFirst { it.id == id }
-        users[userindex] = user
+    fun update(id: Int, user: User) {
+
     }
 
-    fun delete(id: Int?){
-        users.removeIf { it.id == id }
+    fun delete(id: Int?) {
+
     }
 }
