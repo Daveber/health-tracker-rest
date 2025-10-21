@@ -1,14 +1,20 @@
 package ie.setu.controllers
 
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.datatype.joda.JodaModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import ie.setu.domain.Activity
 import ie.setu.domain.User
+import ie.setu.domain.repository.ActivityDAO
 import ie.setu.domain.repository.UserDAO
 import io.javalin.http.Context
 
 object HealthTrackerController {
 
     private val userDao = UserDAO()
+    private val activityDAO = ActivityDAO()
     private val mapper = jacksonObjectMapper()
 
     fun getAllUsers(ctx: Context) {
@@ -43,5 +49,34 @@ object HealthTrackerController {
 
     fun deleteUser(ctx: Context){
         userDao.delete(ctx.pathParam("user-id").toInt())
+    }
+
+    //Activity Functions
+    fun getAllActivities(ctx: Context) {
+        val mapper = jacksonObjectMapper()
+            .registerModule(JodaModule())
+            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+        ctx.json(mapper.writeValueAsString( activityDAO.getAll() ))
+    }
+
+    fun getActivitiesByUserId(ctx: Context) {
+        if (userDao.findUserById(ctx.pathParam("user-id").toInt()) != null) {
+            val activities = activityDAO.findByUserId(ctx.pathParam("user-id").toInt())
+            if (activities.isNotEmpty()) {
+                val mapper = jacksonObjectMapper()
+                    .registerModule(JodaModule())
+                    .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+                ctx.json(mapper.writeValueAsString(activities))
+            }
+        }
+    }
+
+    fun addActivity(ctx: Context){
+        val mapper = jacksonObjectMapper()
+            .registerModule(JodaModule())
+            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+        val activity = mapper.readValue<Activity>(ctx.body())
+        activityDAO.save(activity)
+        ctx.json(activity)
     }
 }
