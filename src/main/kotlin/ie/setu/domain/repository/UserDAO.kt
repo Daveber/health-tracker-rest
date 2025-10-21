@@ -42,18 +42,16 @@ class UserDAO {
     fun save(user: User) {
         transaction {
             Users.insert {
-                it[name] = user.name as String
-                it[email] = user.email as String
-            }
+                it[name] = user.name
+                it[email] = user.email            }
         }
     }
 
     fun update(id: Int, user: User) {
         transaction {
             Users.update({ Users.id eq id }) {
-                it[name] = user.name as String
-                it[email] = user.email as String
-            }
+                it[name] = user.name
+                it[email] = user.email            }
         }
     }
 
