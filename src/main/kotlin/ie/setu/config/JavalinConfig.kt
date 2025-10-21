@@ -6,6 +6,7 @@ import ie.setu.utils.jsonObjectMapper
 import io.javalin.apibuilder.ApiBuilder.*
 import io.javalin.json.JavalinJackson
 
+//
 class JavalinConfig {
 
         val app = Javalin.create(
