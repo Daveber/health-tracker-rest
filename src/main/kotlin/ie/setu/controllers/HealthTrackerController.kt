@@ -51,7 +51,10 @@ object HealthTrackerController {
         userDao.delete(ctx.pathParam("user-id").toInt())
     }
 
-    //Activity Functions
+
+    /** Beginning of Activity Functions**/
+
+
     fun getAllActivities(ctx: Context) {
         val mapper = jacksonObjectMapper()
             .registerModule(JodaModule())
@@ -78,5 +81,31 @@ object HealthTrackerController {
         val activity = mapper.readValue<Activity>(ctx.body())
         activityDAO.save(activity)
         ctx.json(activity)
+    }
+
+    /** delete activities by associated user ID TEST **/
+    fun deleteActivitiesByUserId(ctx: Context) {
+        activityDAO.deleteAllAssociatedByUserId(ctx.pathParam("user-id").toInt())
+    }
+
+    /** delete activity by id TEST **/
+    fun deleteActivity(ctx: Context){
+        activityDAO.deleteByActivityId(ctx.pathParam("activity-id").toInt())
+    }
+
+    /** updateActivity by id TEST **/
+    fun updateActivity(ctx: Context){
+        val mapper = jacksonObjectMapper()
+        .registerModule(JodaModule())
+            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+
+        val newActivity = mapper.readValue<Activity>(ctx.body())
+
+        activityDAO.update(ctx.pathParam("activity-id").toInt(), newActivity)
+    }
+
+    /** get activity by activity id **/
+    fun getActivityById(ctx: Context){
+        activityDAO.findByActivityId(ctx.pathParam("activity-id").toInt())
     }
 }

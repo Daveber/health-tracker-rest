@@ -59,7 +59,7 @@ class ActivityDAO {
 //    }
 
     /** Delete Activities associated with a user id **/
-    fun delete(id: Int?) {
+    fun deleteAllAssociatedByUserId(id: Int?) {
         return transaction {
             Activities.deleteWhere { Activities.userId eq id as Int }
         }

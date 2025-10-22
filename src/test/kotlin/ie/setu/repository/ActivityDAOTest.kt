@@ -129,7 +129,7 @@ class ActivityDaoTest {
                 val activityDAO = populateActivityTable()
 
                 assertEquals(activity1, activityDAO.findByActivityId(activity1.id))
-                activityDAO.delete(activity1.id)
+                activityDAO.deleteAllAssociatedByUserId(activity1.id)
                 assertEquals(null, activityDAO.findByActivityId(activity1.id))
             }
         }
@@ -141,7 +141,7 @@ class ActivityDaoTest {
                 val activityDAO = populateActivityTable()
 
                 assertEquals(listOf<Activity>(activity1, activity3), activityDAO.findByUserId(user1.id))
-                activityDAO.delete(user1.id)
+                activityDAO.deleteAllAssociatedByUserId(user1.id)
                 assertEquals(emptyList<Activity>(), activityDAO.findByUserId(user1.id))
 
             }
