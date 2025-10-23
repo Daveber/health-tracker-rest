@@ -96,7 +96,7 @@ object HealthTrackerController {
     /** updateActivity by id TEST **/
     fun updateActivity(ctx: Context){
         val mapper = jacksonObjectMapper()
-        .registerModule(JodaModule())
+            .registerModule(JodaModule())
             .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
 
         val newActivity = mapper.readValue<Activity>(ctx.body())
@@ -106,6 +106,9 @@ object HealthTrackerController {
 
     /** get activity by activity id **/
     fun getActivityById(ctx: Context){
-        activityDAO.findByActivityId(ctx.pathParam("activity-id").toInt())
+       val activity = activityDAO.findByActivityId(ctx.pathParam("activity-id").toInt())
+        if (activity != null) {
+            ctx.json(activity)
+        }
     }
 }
