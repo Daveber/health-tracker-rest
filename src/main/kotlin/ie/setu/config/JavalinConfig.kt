@@ -31,10 +31,16 @@ class JavalinConfig {
         app.get("/api/users/email/{email}", HealthTrackerController::getUserbyUserEmail)
         app.patch("/api/users/{user-id}", HealthTrackerController::updateUser)
         app.delete("/api/users/{user-id}", HealthTrackerController::deleteUser)
+
         //Activity endpoints
         app.get("/api/activities", HealthTrackerController::getAllActivities)
         app.post("/api/activities", HealthTrackerController::addActivity)
         app.get("/api/users/{user-id}/activities", HealthTrackerController::getActivitiesByUserId)
+        app.delete("/api/users/{user-id}/activities", HealthTrackerController::deleteActivitiesByUserId)
+        app.delete("/api/activities/{activity-id}", HealthTrackerController::deleteActivity)
+        app.patch("/api/activities/{activity-id}", HealthTrackerController::updateActivity)
+        app.get("/api/activities/{activity-id}", HealthTrackerController::getActivityById)
+        //TODO: add endpoints from exercises here
     }
 
     private fun getRemoteAssignedPort(): Int {

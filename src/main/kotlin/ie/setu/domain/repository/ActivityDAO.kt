@@ -9,6 +9,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 class ActivityDAO {
 
+    /** get all activities **/
     fun getAll(): ArrayList<Activity> {
         val activitiesList: ArrayList<Activity> = arrayListOf()
         transaction {
@@ -18,6 +19,7 @@ class ActivityDAO {
             return activitiesList
     }
 
+    /** find activity by id test written **/
     fun findByActivityId(id: Int): Activity? {
         return transaction {
             Activities
@@ -27,6 +29,7 @@ class ActivityDAO {
         }
     }
 
+    /** find activities by user id it test written**/
     fun findByUserId(userId: Int): List<Activity> {
             return transaction {
                 Activities
@@ -35,6 +38,7 @@ class ActivityDAO {
             }
         }
 
+    /** save Activity Test written**/
     fun save(activity: Activity) {
         transaction {
             Activities.insert {
@@ -44,6 +48,40 @@ class ActivityDAO {
                 it[calories] = activity.calories
                 it[userId] = activity.userId
             }
+        }
+    }
+
+//    /** Get activities associated with user id **/
+//    fun getActivities(id: Int): List<Activity> {
+//        transaction {
+//            return
+//        }
+//    }
+
+    /** Delete Activities associated with a user id **/
+    fun deleteAllAssociatedByUserId(id: Int?) {
+        return transaction {
+            Activities.deleteWhere { Activities.userId eq id as Int }
+        }
+    }
+
+    /** Delete Activity with specific Activity id test written**/
+    fun deleteByActivityId(id: Int?) {
+        return transaction {
+            Activities.deleteWhere { Activities.id eq id as Int}
+        }
+    }
+
+    /** Update Activity with specific ID test written **/
+    fun update(id: Int, activity: Activity) {
+        transaction {
+            Activities.update({ Activities.id eq id }) {
+                it[description] = activity.description
+                it[duration] = activity.duration
+                it[calories] = activity.calories
+                it[started] = activity.started
+                it[userId] = activity.userId
+        }
         }
     }
 }
