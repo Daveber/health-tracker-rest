@@ -104,7 +104,7 @@ object HealthTrackerController {
         activityDAO.update(ctx.pathParam("activity-id").toInt(), newActivity)
     }
 
-    /** get activity by activity id **/
+    /** get activity by activity id WORKS**/
     fun getActivityById(ctx: Context){
        val activity = activityDAO.findByActivityId(ctx.pathParam("activity-id").toInt())
         if (activity != null) {
