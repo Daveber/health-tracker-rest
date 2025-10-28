@@ -4,12 +4,13 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import ie.setu.domain.User
 import ie.setu.domain.repository.UserDAO
+import ie.setu.utils.jsonToObject
 import io.javalin.http.Context
 
 object UserController {
 
     private val userDao = UserDAO()
-    private val mapper = jacksonObjectMapper()
+    private val mapper = jacksonObjectMapper() //user for old mapper before jsonToObject helper in JSONUtilities.kt
 
     /** Get all users **/
     fun getAllUsers(ctx: Context) {
@@ -34,7 +35,7 @@ object UserController {
 
     /** Add User **/
     fun addUser(ctx: Context){
-        val user = mapper.readValue<User>(ctx.body())
+        val user = jsonToObject<User>(ctx.body())
         userDao.save(user)
         ctx.json(user)
     }
@@ -42,7 +43,7 @@ object UserController {
     /** Update user **/
     fun updateUser(ctx: Context){
         val userid = ctx.pathParam("user-id").toInt()
-        val newuser = mapper.readValue<User>(ctx.body())
+        val newuser = jsonToObject<User>(ctx.body())
         userDao.update(userid, newuser)
     }
 

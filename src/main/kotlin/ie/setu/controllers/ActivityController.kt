@@ -10,6 +10,7 @@ import ie.setu.domain.User
 import ie.setu.domain.repository.ActivityDAO
 import ie.setu.domain.repository.UserDAO
 import io.javalin.http.Context
+import ie.setu.utils.jsonToObject
 
 object ActivityController {
 
@@ -18,6 +19,7 @@ object ActivityController {
 
     /** Get all activities **/
     fun getAllActivities(ctx: Context) {
+
         val mapper = jacksonObjectMapper()
             .registerModule(JodaModule())
             .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
@@ -42,7 +44,8 @@ object ActivityController {
         val mapper = jacksonObjectMapper()
             .registerModule(JodaModule())
             .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-        val activity = mapper.readValue<Activity>(ctx.body())
+
+        val activity = jsonToObject<Activity>(ctx.body())
         activityDAO.save(activity)
         ctx.json(activity)
     }
@@ -57,13 +60,13 @@ object ActivityController {
         activityDAO.deleteByActivityId(ctx.pathParam("activity-id").toInt())
     }
 
-    /** UpdateActivity by ID **/
+    /** Update activity by ID **/
     fun updateActivity(ctx: Context){
         val mapper = jacksonObjectMapper()
             .registerModule(JodaModule())
             .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
 
-        val newActivity = mapper.readValue<Activity>(ctx.body())
+        val newActivity = jsonToObject<Activity>(ctx.body())
 
         activityDAO.update(ctx.pathParam("activity-id").toInt(), newActivity)
     }
