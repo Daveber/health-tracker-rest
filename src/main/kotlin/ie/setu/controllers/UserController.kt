@@ -14,7 +14,14 @@ object UserController {
 
     /** Get all users **/
     fun getAllUsers(ctx: Context) {
-        ctx.json(userDao.getAll())
+        val users = userDao.getAll()
+
+        if (users.size != 0) {
+            ctx.status(200)
+        } else {
+            ctx.status(404)
+        }
+        ctx.json(users)
     }
 
     /** Get User by user id **/
@@ -22,6 +29,9 @@ object UserController {
         val user = userDao.findUserById(ctx.pathParam("user-id").toInt())
         if (user != null) {
             ctx.json(user)
+            ctx.status(200)
+        } else {
+            ctx.status(404)
         }
     }
 
@@ -30,25 +40,40 @@ object UserController {
         val email = userDao.findUserByEmail(ctx.pathParam("email"))
         if (email != null) {
             ctx.json(email)
+            ctx.status(200)
+        } else {
+            ctx.status(404)
         }
     }
 
     /** Add User **/
-    fun addUser(ctx: Context){
-        val user = jsonToObject<User>(ctx.body())
-        userDao.save(user)
-        ctx.json(user)
+    fun addUser(ctx: Context) {
+        val user : User = jsonToObject(ctx.body())
+        val userId = userDao.save(user)
+        if (userId != null) {
+            user.id = userId
+            ctx.json(user)
+            ctx.status(201)
+        }
     }
 
     /** Update user **/
-    fun updateUser(ctx: Context){
-        val userid = ctx.pathParam("user-id").toInt()
-        val newuser = jsonToObject<User>(ctx.body())
-        userDao.update(userid, newuser)
+    fun updateUser(ctx: Context) {
+        val foundUser : User = jsonToObject(ctx.body())
+        if ((userDao.update(id = ctx.pathParam("user-id").toInt(), user=foundUser)) != 0) {
+            ctx.status(204)
+        } else {
+            ctx.status(404)
+        }
+
     }
 
     /** Delete user **/
     fun deleteUser(ctx: Context){
-        userDao.delete(ctx.pathParam("user-id").toInt())
+        if (userDao.delete(ctx.pathParam("user-id").toInt()) != 0) {
+            ctx.status(204)
+        } else {
+            ctx.status(404)
+        }
     }
 }
