@@ -27,6 +27,7 @@ val exampleuser2 = users[1]
 val activity1 = activities[0]
 val activity2 = activities[1]
 val activity3 = activities[2]
+val activity4 = activities[3]
 
 class ActivityDaoTest {
 

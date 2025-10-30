@@ -12,7 +12,6 @@ import org.jetbrains.exposed.sql.update
 
 class UserDAO {
 
-
     fun getAll(): ArrayList<User> {
         val userList: ArrayList<User> = arrayListOf()
         transaction {

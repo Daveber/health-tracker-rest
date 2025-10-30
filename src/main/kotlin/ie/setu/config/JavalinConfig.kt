@@ -39,10 +39,10 @@ class JavalinConfig {
         app.get("/api/activities", ActivityController::getAllActivities)
         app.post("/api/activities", ActivityController::addActivity)
         app.get("/api/users/{user-id}/activities", ActivityController::getActivitiesByUserId)
-        app.delete("/api/users/{user-id}/activities", ActivityController::deleteActivitiesByUserId) //Works
-        app.delete("/api/activities/{activity-id}", ActivityController::deleteActivity) //Works
-        app.patch("/api/activities/{activity-id}", ActivityController::updateActivity) //Works
-        app.get("/api/activities/{activity-id}", ActivityController::getActivityById) //Works
+        app.delete("/api/users/{user-id}/activities", ActivityController::deleteActivitiesByUserId)
+        app.delete("/api/activities/{activity-id}", ActivityController::deleteActivity)
+        app.patch("/api/activities/{activity-id}", ActivityController::updateActivity)
+        app.get("/api/activities/{activity-id}", ActivityController::getActivityById)
     }
 
     private fun getRemoteAssignedPort(): Int {
