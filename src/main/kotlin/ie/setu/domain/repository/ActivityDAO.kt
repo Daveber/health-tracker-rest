@@ -59,22 +59,22 @@ class ActivityDAO {
 //    }
 
     /** Delete Activities associated with a user id **/
-    fun deleteAllAssociatedByUserId(id: Int?) {
+    fun deleteAllAssociatedByUserId(id: Int?) : Int? {
         return transaction {
             Activities.deleteWhere { Activities.userId eq id as Int }
         }
     }
 
     /** Delete Activity with specific Activity id test written**/
-    fun deleteByActivityId(id: Int?) {
+    fun deleteByActivityId(id: Int?) : Int? {
         return transaction {
             Activities.deleteWhere { Activities.id eq id as Int}
         }
     }
 
     /** Update Activity with specific ID test written **/
-    fun update(id: Int, activity: Activity) {
-        transaction {
+    fun update(id: Int, activity: Activity) : Int? {
+       return transaction {
             Activities.update({ Activities.id eq id }) {
                 it[description] = activity.description
                 it[duration] = activity.duration
@@ -82,6 +82,6 @@ class ActivityDAO {
                 it[started] = activity.started
                 it[userId] = activity.userId
         }
-        }
+       }
     }
 }

@@ -10,14 +10,21 @@ val nonExistingEmail = "112233445566778testUser@xxxxx.xx"
 val validName = "Test User 1"
 val validEmail = "testuser1@test.com"
 
-val validDateTime = DateTime.parse("2020-04-25T14:30:00")
-
 val users = arrayListOf<User>(
     User(name = "Alice Wonderland", email = "alice@wonderland.com", id = 1),
     User(name = "Bob Cat", email = "bob@cat.ie", id = 2),
     User(name = "Mary Contrary", email = "mary@contrary.ie", id = 3),
     User(name = "Carol Singer", email = "carol@singer.ie", id = 4)
 )
+
+val validActivityId = 1
+val validDescription = "Cycling"
+val validDuration = 1.30
+val validCalories = 200
+val validDateTime = DateTime.parse("2020-04-25T12:30:00.00")
+val validUserId = 1
+
+val newValidActivity = Activity(validActivityId, validDescription,validDuration, validCalories, validDateTime, validUserId)
 
 val activities = arrayListOf<Activity>(
     Activity(1, "Running", 1.30, 120, validDateTime, 1),

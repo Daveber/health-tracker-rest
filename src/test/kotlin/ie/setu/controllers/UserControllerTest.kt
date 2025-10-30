@@ -43,7 +43,7 @@ class UserControllerTest {
     }
 
     /** Helper function to add user to test database **/
-    private fun addUser (name:String, email: String): HttpResponse<JsonNode> {
+    private fun addUser (name: String, email: String): HttpResponse<JsonNode> {
         return Unirest.post(origin + "/api/users")
             .body("{\"name\":\"$name\", \"email\":\"$email\"}")
             .asJson()
@@ -65,7 +65,7 @@ class UserControllerTest {
         return Unirest.delete(origin + "/api/users/$id").asString()
     }
 
-    /** Helper funciton to add a test user to database **/
+    /** Helper function to add a test user to database **/
     private fun updateUser (id: Int, name: String, email: String): HttpResponse<JsonNode> {
         return Unirest.patch(origin + "/api/users/$id")
             .body("{\"name\":\"$name\", \"email\":\"$email\"}")
