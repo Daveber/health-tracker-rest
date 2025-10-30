@@ -230,6 +230,20 @@ class ActivityControllerTest {
 
     @Nested
     inner class UpdateActivity {
+
+        val addedUser = addUser(validName, validEmail)
+        val createdUser : User = jsonToObject(addedUser.body.toString())
+        val addActivityResponse = addActivity(validDescription, validDuration, validCalories, validDateTime, createdUser.id)
+
+        val updatedDescription = "updatedDescription"
+        val updatedCalories = 431
+        val updatedDuration = 1.1
+        val addedResponse = updateActivity(id = 1, updatedDescription, updatedDuration, updatedCalories, validDateTime, createdUser.id)
+
+
+
+
+
         //  patch( "/api/activities/:activity-id", HealthTrackerController::updateActivity)
     }
 

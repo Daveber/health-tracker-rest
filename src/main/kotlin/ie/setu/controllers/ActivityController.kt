@@ -53,15 +53,17 @@ object ActivityController {
 
     /** Add Activity **/
     fun addActivity(ctx: Context){
-        val mapper = jacksonObjectMapper()
-            .registerModule(JodaModule())
-            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+//        val mapper = jacksonObjectMapper()
+//            .registerModule(JodaModule())
+//            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
 
-        val activity = jsonToObject<Activity>(ctx.body())
-
-        activityDAO.save(activity)
-        ctx.json(activity)
-        ctx.status(201)
+        val activity : Activity = jsonToObject(ctx.body())
+        val activityId = activityDAO.save(activity)
+        if (activityId != null) {
+            activity.id = activityId
+            ctx.json(activity)
+            ctx.status(201)
+        }
     }
 
     /** Delete activities by associated user ID **/

@@ -39,15 +39,15 @@ class ActivityDAO {
         }
 
     /** save Activity Test written**/
-    fun save(activity: Activity) {
-        transaction {
+    fun save(activity: Activity): Int? {
+        return transaction {
             Activities.insert {
                 it[description] = activity.description
                 it[duration] = activity.duration
                 it[started] = activity.started
                 it[calories] = activity.calories
                 it[userId] = activity.userId
-            }
+            } get Activities.id
         }
     }
 
