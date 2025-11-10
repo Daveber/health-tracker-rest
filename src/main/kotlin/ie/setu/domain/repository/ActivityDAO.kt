@@ -29,7 +29,7 @@ class ActivityDAO {
         }
     }
 
-    /** find activities by user id it test written**/
+    /** find activities by user id it test written **/
     fun findByUserId(userId: Int): List<Activity> {
             return transaction {
                 Activities
