@@ -6,6 +6,7 @@ import ie.setu.controllers.UserController
 import ie.setu.utils.jsonObjectMapper
 import io.javalin.apibuilder.ApiBuilder.*
 import io.javalin.json.JavalinJackson
+import io.javalin.vue.VueComponent
 
 //
 class JavalinConfig {
@@ -13,6 +14,8 @@ class JavalinConfig {
         val app = Javalin.create(
             { config ->
                 config.jsonMapper(JavalinJackson(jsonObjectMapper()))
+                config.staticFiles.enableWebjars()
+                config.vue.vueInstanceNameInJs = "app"
             }
         ).apply {
             exception(Exception::class.java) { e, ctx -> e.printStackTrace() }
@@ -43,6 +46,9 @@ class JavalinConfig {
         app.delete("/api/activities/{activity-id}", ActivityController::deleteActivity)
         app.patch("/api/activities/{activity-id}", ActivityController::updateActivity)
         app.get("/api/activities/{activity-id}", ActivityController::getActivityById)
+
+        /** Vue Routes **/
+        app.get("/", VueComponent("<home-page></home-page>"))
     }
 
     private fun getRemoteAssignedPort(): Int {
