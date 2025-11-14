@@ -35,7 +35,15 @@ val activities = arrayListOf<Activity>(
 )
 
 val favourites = arrayListOf<Favourite>(
-    Favourite(1, 1, 1),
-    Favourite(2, 2, 2),
-    Favourite(3, 1, 2)
+    Favourite(userid = 1, activityid = 1, id = 1),
+    Favourite(userid = 2,  activityid = 2, id = 2),
+    Favourite(userid = 3, activityid = 1, id = 2)
 )
+
+val favvaliduserid1 = 1
+val favvaliduserid2 = 2
+
+val favvalidactivityid1 = 1
+val favvalidactivityid2 = 2
+
+val nonexisitingid = -1

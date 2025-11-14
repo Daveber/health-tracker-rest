@@ -150,7 +150,7 @@ class UserDaoTest {
     @Nested
     inner class Deleteusers {
         @Test
-        fun `deleting a non-existant usre in table results in no deletion`() {
+        fun `deleting a non-existant user in table results in no deletion`() {
             transaction {
 
                 val userDAO = populateUserTable()
