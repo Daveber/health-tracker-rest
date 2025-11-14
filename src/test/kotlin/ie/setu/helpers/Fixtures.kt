@@ -1,6 +1,7 @@
 package ie.setu.helpers
 
 import ie.setu.domain.Activity
+import ie.setu.domain.Favourite
 import ie.setu.domain.User
 import org.jetbrains.exposed.sql.jodatime.dateTimeParam
 import org.jetbrains.exposed.sql.jodatime.datetime
@@ -30,5 +31,11 @@ val activities = arrayListOf<Activity>(
     Activity(1, "Running", 1.30, 120, validDateTime, 1),
     Activity(2, "Swimming", 1.30, 120, validDateTime, 2),
     Activity(3, "Rowing", 1.30, 120, validDateTime, 1),
-    Activity(4, "Archery", 1.30, 120, validDateTime, 2),
+    Activity(4, "Archery", 1.30, 120, validDateTime, 2)
+)
+
+val favourites = arrayListOf<Favourite>(
+    Favourite(1, 1, 1),
+    Favourite(2, 2, 2),
+    Favourite(3, 1, 2)
 )
