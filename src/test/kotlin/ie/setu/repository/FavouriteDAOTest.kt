@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Nested
 /** example data to create users and activities **/
 val sampleuser1 = users[0]
 val sampleuser2 = users[1]
+val sampleuser3 = users[2]
 
 val sampleactivity1 = activities[0]
 val sampleactivity2 = activities[1]
@@ -38,6 +39,7 @@ class FavouritesDAOTest {
 
         userDAO.save(sampleuser1)
         userDAO.save(sampleuser2)
+        userDAO.save(sampleuser3)
 
         activityDAO.save(sampleactivity1)
         activityDAO.save(sampleactivity2)
@@ -68,8 +70,8 @@ class FavouritesDAOTest {
 
                 assertEquals(3, favouriteDAO.getAll().size)
                 assertEquals(samplefavourite1, favouriteDAO.findByFavouriteId(samplefavourite1.id))
-                assertEquals(listOf<Favourite>(samplefavourite1, samplefavourite3), favouriteDAO.findByUserId(sampleuser1.id))
-                assertEquals(listOf<Favourite>(samplefavourite2, samplefavourite3), favouriteDAO.findByActivityId(sampleactivity2.id))
+                assertEquals(listOf<Favourite>(samplefavourite1), favouriteDAO.findByUserId(sampleuser1.id))
+                assertEquals(listOf<Favourite>(samplefavourite1, samplefavourite3), favouriteDAO.findByActivityId(sampleactivity1.id))
             }
         }
     }
@@ -141,7 +143,7 @@ class FavouritesDAOTest {
             transaction {
                 val favouriteDAO = populateFavouriteTable()
 
-                assertEquals(listOf<Favourite>(samplefavourite1, samplefavourite3), favouriteDAO.findByUserId(sampleuser1.id))
+                assertEquals(listOf<Favourite>(samplefavourite1), favouriteDAO.findByUserId(sampleuser1.id))
                 favouriteDAO.deleteAllFavouritesByUserId(sampleuser1.id)
                 assertEquals(emptyList<Favourite>(), favouriteDAO.findByUserId(sampleuser1.id))
             }
@@ -152,7 +154,7 @@ class FavouritesDAOTest {
             transaction {
                 val favouriteDAO = populateFavouriteTable()
 
-                assertEquals(listOf<Favourite>(samplefavourite2, samplefavourite3), favouriteDAO.findByActivityId(sampleactivity2.id))
+                assertEquals(listOf<Favourite>(samplefavourite2), favouriteDAO.findByActivityId(sampleactivity2.id))
                 favouriteDAO.deleteAllFavouritesByActivityId(sampleactivity2.id)
                 assertEquals(emptyList<Favourite>(), favouriteDAO.findByActivityId(sampleactivity2.id))
             }

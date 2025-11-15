@@ -7,6 +7,7 @@ import ie.setu.domain.db.Users
 import ie.setu.domain.repository.UserDAO
 import ie.setu.helpers.ServerContainer
 import ie.setu.helpers.nonExistingEmail
+import ie.setu.helpers.nonexisitingid
 import ie.setu.helpers.users
 import ie.setu.helpers.validEmail
 import ie.setu.helpers.validName
@@ -227,6 +228,27 @@ class UserControllerTest {
 
     @Nested
     inner class DeleteUser {
+
+        @Test
+        fun `delete user by id when id exists`() {
+            val addResponse = addUser(validName, validEmail)
+            val addedUser: User = jsonToObject(addResponse.body.toString())
+
+            val getResponse = retrieveUserById(addedUser.id)
+            assertEquals(200, getResponse.status)
+
+            val delResponse = deleteUser(addedUser.id)
+            assertEquals(204, delResponse.status)
+
+            val getResponseAfterDelete = retrieveUserById(addedUser.id)
+            assertEquals(404, getResponseAfterDelete.status)
+        }
+
+        @Test
+        fun `delete user by non-existing id`() {
+            val delResponse = deleteUser(nonexisitingid)
+            assertEquals(404, delResponse.status)
+        }
 
     }
 }
