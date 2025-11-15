@@ -5,6 +5,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import org.jetbrains.exposed.sql.Database
 import org.postgresql.util.PSQLException
 import ie.setu.domain.db.Activities
+import ie.setu.domain.db.Favourites
 import ie.setu.domain.db.Users
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -39,6 +40,7 @@ class DBConfig {
                 transaction {
                     SchemaUtils.create(Users)
                     SchemaUtils.create(Activities)
+                    SchemaUtils.create(Favourites)
                 }
             } else {
                 logger.info { "Using remote PostgreSQL instance" }
