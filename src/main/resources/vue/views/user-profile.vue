@@ -12,6 +12,8 @@
       <dt v-if="user">
         <br>
         <a :href="`/users/${user.id}/activities`"> View User Activities </a>
+        <br>
+        <a :href="`/users/${user.id}/favourites`"> View User Favourites </a>
       </dt>
     </div>
   </app-layout>
