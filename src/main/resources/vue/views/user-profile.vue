@@ -55,10 +55,18 @@
               {{ activity.description }} for {{ activity.duration }} minutes
             </li>
           </ul>
-          <div v-if="user">
-            <a :href="`/users/${user.id}/favourites`">View User Favourites</a>
-          </div>
         </div>
+
+        <div class="card-footer text-left">
+          <p v-if="activities.length === 0"> No Favourites yet...</p>
+          <p v-if="activities.length > 0"> Favourites so far...</p>
+          <ul>
+            <li v-for="favourite in favourites">
+              {{ favourite.activityid }} TODO: Display full favourite Activity
+            </li>
+          </ul>
+        </div>
+
       </div>
     </div>
   </app-layout>
@@ -71,6 +79,7 @@ app.component("user-profile", {
     user: null,
     noUserFound: false,
     activities: [],
+    favourites: [],
   }),
   created: function () {
     const userId = this.$javalin.pathParams["user-id"];
@@ -85,6 +94,11 @@ app.component("user-profile", {
         .then(res => this.activities = res.data)
         .catch(error => {
           console.log("No activities added yet: " + error)
+        })
+    axios.get(url + `/favourites`)
+        .then(res => this.favourites = res.data)
+        .catch(error => {
+          console.log("No favourite activites..." + error)
         })
   },
 
