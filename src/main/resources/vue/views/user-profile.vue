@@ -61,8 +61,8 @@
           <p v-if="activities.length === 0"> No Favourites yet...</p>
           <p v-if="activities.length > 0"> Favourites so far...</p>
           <ul>
-            <li v-for="favourite in favourites">
-              {{ favourite.activityid }} TODO: Display full favourite Activity
+            <li v-for="activity in favourites">
+              Activity id: {{ activity.id }} Activity Name: {{activity.description}} TODO: Add Heart icon
             </li>
           </ul>
         </div>
@@ -90,16 +90,14 @@ app.component("user-profile", {
           console.log("No user found for the the current id in path parameter: " + error)
           this.noUserFound = true
         })
+
     axios.get(url + `/activities`)
         .then(res => this.activities = res.data)
         .catch(error => {
           console.log("No activities added yet: " + error)
         })
-    axios.get(url + `/favourites`)
-        .then(res => this.favourites = res.data)
-        .catch(error => {
-          console.log("No favourite activites..." + error)
-        })
+
+    this.getUserfavourites();
   },
 
   methods: {
@@ -119,7 +117,7 @@ app.component("user-profile", {
       alert("User updated!")
     },
 
-    deleteUser: function () {
+    deleteUser: function() {
       if (confirm("Do you really want to delete?")) {
         const userId = this.$javalin.pathParams["user-id"];
         const url = `/api/users/${userId}`
@@ -132,6 +130,22 @@ app.component("user-profile", {
             .catch(function (error) {
               console.log(error)
             });
+      }
+    },
+
+    async getUserfavourites() {
+      const userId = this.$javalin.pathParams["user-id"];
+      try {
+        const favourites = await axios.get(`/api/users/${userId}/favourites`);
+        const favouriteData = favourites.data;
+
+        const activities = favouriteData.map(fav => axios.get(`/api/activities/${fav.activityid}`));
+
+        const responses = await Promise.all(activities);
+
+        this.favourites = responses.map(response => response.data);
+      } catch (error) {
+        console.log("User has no favourites.." + error)
       }
     }
   }
