@@ -11,6 +11,7 @@ import ie.setu.domain.repository.ActivityDAO
 import ie.setu.domain.repository.UserDAO
 import ie.setu.helpers.ServerContainer
 import ie.setu.helpers.activities
+import ie.setu.helpers.nonexisitingid
 import ie.setu.helpers.validActivityId
 import ie.setu.helpers.validCalories
 import ie.setu.helpers.validDateTime
@@ -65,9 +66,9 @@ class ActivityControllerTest {
         SchemaUtils.create(Activities)
         val activitiesDAO = ActivityDAO()
         activitiesDAO.save(activity1) //user id 1, activity id 1
-        activitiesDAO.save(activity2) //user id 2, activity id 2
-        activitiesDAO.save(activity3) //user id 1, activity id 3
-        activitiesDAO.save(activity4) //user id 2, activity id 4
+        //activitiesDAO.save(activity2) //user id 2, activity id 2
+        //activitiesDAO.save(activity3) //user id 1, activity id 3
+        //activitiesDAO.save(activity4) //user id 2, activity id 4
         return activitiesDAO
     }
 
@@ -231,24 +232,83 @@ class ActivityControllerTest {
     @Nested
     inner class UpdateActivity {
 
-        val addedUser = addUser(validName, validEmail)
-        val createdUser : User = jsonToObject(addedUser.body.toString())
-        val addActivityResponse = addActivity(validDescription, validDuration, validCalories, validDateTime, createdUser.id)
+        @Test
+        fun `update activity with valid id`() {
+            val addedUser = addUser(validName, validEmail)
+            val createdUser: User = jsonToObject(addedUser.body.toString())
 
-        val updatedDescription = "updatedDescription"
-        val updatedCalories = 431
-        val updatedDuration = 1.1
-        val addedResponse = updateActivity(id = 1, updatedDescription, updatedDuration, updatedCalories, validDateTime, createdUser.id)
+            val addActivityResponse = addActivity(validDescription, validDuration, validCalories, validDateTime, createdUser.id)
+            val addedActivity: Activity = jsonToObject(addActivityResponse.body.toString())
 
+            val updatedDescription = "updatedDescription"
+            val updatedCalories = 431
+            val updatedDuration = 1.1
 
+            val updatedResponse = updateActivity(
+                addedActivity.id,
+                updatedDescription,
+                updatedDuration,
+                updatedCalories,
+                validDateTime,
+                createdUser.id
+            )
 
+            assertEquals(204, updatedResponse.status)
 
+            val getAddedActivityResponse = getActivityById(addedActivity.id)
+            val addedActivityDetails : Activity = jsonToObject(getAddedActivityResponse.body.toString())
 
-        //  patch( "/api/activities/:activity-id", HealthTrackerController::updateActivity)
+            assertEquals(updatedDescription, addedActivityDetails.description)
+            assertEquals(updatedDuration, addedActivityDetails.duration)
+            assertEquals(updatedCalories, addedActivityDetails.calories)
+        }
+
+        @Test
+        fun `update activity with non-existing id`() {
+            val updateResponse = updateActivity(nonexisitingid, validDescription, validDuration, validCalories, validDateTime, validUserId)
+            assertEquals(404, updateResponse.status)
+        }
     }
 
     @Nested
     inner class DeleteActivities {
+
+        @Test
+        fun `delete activity with existing activity id`() {
+            val addUserResponse = addUser(validName, validEmail)
+            val addedUser : User = jsonToObject(addUserResponse.body.toString())
+
+            val addActivityResponse = addActivity(validDescription, validDuration, validCalories, validDateTime, addedUser.id)
+            val addedActivity : Activity = jsonToObject(addActivityResponse.body.toString())
+
+            val delResponse = deleteActivityByActivityId(addedActivity.id)
+            assertEquals(204, delResponse.status)
+        }
+
+        @Test
+        fun `delete activity with non-existing activity id`() {
+            val delResponse = deleteActivityByActivityId(nonexisitingid)
+            assertEquals(404, delResponse.status)
+        }
+
+        @Test
+        fun `delete activities with associated exisiting user id`() {
+            val addUserResponse = addUser(validName, validEmail)
+            val addedUser : User = jsonToObject(addUserResponse.body.toString())
+
+            val addActivityResponse = addActivity(validDescription, validDuration, validCalories, validDateTime, addedUser.id)
+            val addedActivity : Activity = jsonToObject(addActivityResponse.body.toString())
+
+            val delResponse = deleteActivitiesByUserId(addedActivity.userId)
+            assertEquals(204, delResponse.status)
+        }
+
+        @Test
+        fun `delete activities with associated non-existing user id`(){
+            val delResponse = deleteActivitiesByUserId(nonexisitingid)
+            assertEquals(404, delResponse.status)
+        }
+
         //   delete("/api/activities/:activity-id", HealthTrackerController::deleteActivityByActivityId)
         //   delete("/api/users/:user-id/activities", HealthTrackerController::deleteActivityByUserId)
     }

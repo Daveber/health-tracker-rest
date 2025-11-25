@@ -23,7 +23,7 @@ import ie.setu.helpers.validDateTime
 val exampleuser1 = users[0]
 val exampleuser2 = users[1]
 
-/** activities**/
+/** activities **/
 val activity1 = activities[0]
 val activity2 = activities[1]
 val activity3 = activities[2]

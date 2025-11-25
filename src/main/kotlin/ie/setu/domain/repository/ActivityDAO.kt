@@ -51,13 +51,6 @@ class ActivityDAO {
         }
     }
 
-//    /** Get activities associated with user id **/
-//    fun getActivities(id: Int): List<Activity> {
-//        transaction {
-//            return
-//        }
-//    }
-
     /** Delete Activities associated with a user id **/
     fun deleteAllAssociatedByUserId(id: Int?) : Int? {
         return transaction {
