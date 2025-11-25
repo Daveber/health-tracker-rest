@@ -6,6 +6,7 @@ import ie.setu.domain.User
 import ie.setu.domain.db.Users
 import ie.setu.domain.repository.UserDAO
 import ie.setu.helpers.ServerContainer
+import ie.setu.helpers.TestDatabaseConfig
 import ie.setu.helpers.nonExistingEmail
 import ie.setu.helpers.nonexisitingid
 import ie.setu.helpers.users
@@ -27,6 +28,7 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.jetbrains.exposed.sql.Database
 import org.junit.jupiter.api.Assertions.assertNotEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 
 
@@ -81,16 +83,13 @@ class UserControllerTest {
         @BeforeAll
         @JvmStatic
         fun setupInMemoryDatabase() {
-            Database.connect(
-                url = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1",
-                driver = "org.h2.Driver",
-                user = "sa",
-                password = ""
-            )
-            transaction {
-                SchemaUtils.create(Users)
+            TestDatabaseConfig.connect()
             }
         }
+
+    @BeforeEach
+    fun resetDatabase() {
+        TestDatabaseConfig.reset()
     }
 
 
@@ -249,6 +248,5 @@ class UserControllerTest {
             val delResponse = deleteUser(nonexisitingid)
             assertEquals(404, delResponse.status)
         }
-
     }
 }

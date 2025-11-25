@@ -10,6 +10,7 @@ import ie.setu.domain.db.Users
 import ie.setu.domain.repository.ActivityDAO
 import ie.setu.domain.repository.UserDAO
 import ie.setu.helpers.ServerContainer
+import ie.setu.helpers.TestDatabaseConfig
 import ie.setu.helpers.activities
 import ie.setu.helpers.nonexisitingid
 import ie.setu.helpers.validActivityId
@@ -40,6 +41,7 @@ import org.bouncycastle.oer.its.ieee1609dot2.EndEntityType.app
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.assertNotNull
 import kotlin.test.assertNotEquals
 
@@ -128,16 +130,13 @@ class ActivityControllerTest {
         @BeforeAll
         @JvmStatic
         fun setupInMemoryDatabase() {
-            Database.connect(
-                url = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1",
-                driver = "org.h2.Driver",
-                user = "sa",
-                password = ""
-            )
-            transaction {
-                SchemaUtils.create(Activities)
-            }
+            TestDatabaseConfig.connect()
         }
+    }
+
+    @BeforeEach
+    fun resetDatabase() {
+        TestDatabaseConfig.reset()
     }
 
 

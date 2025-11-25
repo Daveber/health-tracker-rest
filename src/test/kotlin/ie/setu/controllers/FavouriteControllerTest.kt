@@ -43,7 +43,9 @@ import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Nested
 import ie.setu.controllers.UserControllerTest
 import ie.setu.controllers.ActivityControllerTest
+import ie.setu.helpers.TestDatabaseConfig
 import ie.setu.helpers.nonexisitingid
+import org.junit.jupiter.api.BeforeEach
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class FavouriteControllerTest {
@@ -143,18 +145,13 @@ class FavouriteControllerTest {
         @BeforeAll
         @JvmStatic
         fun setupInMemoryDatabase() {
-            Database.connect(
-                url = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1",
-                driver = "org.h2.Driver",
-                user = "sa",
-                password = ""
-            )
-            transaction {
-                SchemaUtils.create(Users)
-                SchemaUtils.create(Activities)
-                SchemaUtils.create(Favourites)
-            }
+            TestDatabaseConfig.connect()
         }
+    }
+
+    @BeforeEach
+    fun resetDatabase() {
+        TestDatabaseConfig.reset()
     }
 
     @Nested
