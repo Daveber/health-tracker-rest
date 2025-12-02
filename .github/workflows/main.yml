@@ -55,7 +55,7 @@ jobs:
     steps:
       - uses: PavanMudigonda/jacoco-reporter@v5.0
         with:
-          coverage_results_path: health-tracker-rest/src/test/reports/jacoco.xml
+          coverage_results_path: target/site/jacoco/jacoco.xml
           coverage_report_name: Coverage
           coverage_report_title: JaCoCo
           minimum_coverage: 20
