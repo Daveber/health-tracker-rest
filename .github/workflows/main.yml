@@ -53,12 +53,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - uses: codelyze/action@2.6.0
+      - uses: PavanMudigonda/jacoco-reporter@v5.0
         with:
-          token: $ {{ secrets.CODELYZE_PROJECT_TOKEN }}
-          path: coverage/lcov.info
-          annotations: true
-          threshold: 10
+          coverage_results_path: health-tracker-rest/src/test/reports/jacoco.xml
+          coverage_report_name: Coverage
+          coverage_report_title: JaCoCo
+          minimum_coverage: 20
+          fail_below_threshold: true
           
   test:
     name: Automated Testing
