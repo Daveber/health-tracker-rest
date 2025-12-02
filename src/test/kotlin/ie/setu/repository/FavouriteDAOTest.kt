@@ -12,9 +12,11 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import ie.setu.domain.repository.UserDAO
+import ie.setu.helpers.TestDatabaseConfig
 import ie.setu.helpers.activities
 import ie.setu.helpers.favourites
 import junit.framework.TestCase.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 
 /** example data to create users and activities **/
@@ -52,12 +54,16 @@ class FavouritesDAOTest {
     }
 
     companion object {
-
         @BeforeAll
         @JvmStatic
-        internal fun setupInMemoryDatabaseConnection(){
-            Database.connect("jdbc:h2:mem:test", driver = "org.h2.Driver", user = "root", password = "")
+        fun setupInMemoryDatabase() {
+            TestDatabaseConfig.connect()
         }
+    }
+
+    @BeforeEach
+    fun resetDatabase() {
+        TestDatabaseConfig.reset()
     }
 
     @Nested

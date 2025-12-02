@@ -9,8 +9,11 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import ie.setu.domain.repository.UserDAO
+import ie.setu.helpers.TestDatabaseConfig
 import ie.setu.helpers.nonExistingEmail
+import ie.setu.helpers.nonexisitingid
 import junit.framework.TestCase.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.TestFactory
 
@@ -29,13 +32,24 @@ class UserDaoTest {
         return userDAO
     }
 
-    companion object {
+    internal fun cleanUserTable() {
+        val userDAO = UserDAO()
+        userDAO.delete(user1.id)
+        userDAO.delete(user2.id)
+        userDAO.delete(user3.id)
+    }
 
+    companion object {
         @BeforeAll
         @JvmStatic
-        internal fun setupInMemoryDatabaseConnection() {
-            Database.connect("jdbc:h2:mem:test", driver = "org.h2.Driver", user = "root", password = "")
+        fun setupInMemoryDatabase() {
+            TestDatabaseConfig.connect()
         }
+    }
+
+    @BeforeEach
+    fun resetDatabase() {
+        TestDatabaseConfig.reset()
     }
 
     @Nested
@@ -50,6 +64,8 @@ class UserDaoTest {
                 assertEquals(user1, userDAO.findUserById(user1.id))
                 assertEquals(user2, userDAO.findUserById(user2.id))
                 assertEquals(user3, userDAO.findUserById(user3.id))
+
+                cleanUserTable()
             }
         }
     }
@@ -63,6 +79,8 @@ class UserDaoTest {
                 val userDAO = populateUserTable()
 
                 assertEquals(3, userDAO.getAll().size)
+
+                cleanUserTable()
             }
         }
 
@@ -73,15 +91,20 @@ class UserDaoTest {
                 val userDAO = populateUserTable()
 
                 assertEquals(null, userDAO.findUserById(4))
+
+                cleanUserTable()
             }
         }
 
         @Test
-        fun `find user by id that exists, results in a correct user returned`() {
+        fun `find users by id that exists, results in a correct users returned`() {
             transaction {
                 val userDAO = populateUserTable()
 
-                assertEquals(user3, userDAO.findUserById(user3.id))
+                //assertEquals(user1, userDAO.findUserById(user1.id))
+                assertEquals(arrayListOf<User>(user1, user2, user3), userDAO.getAll())
+
+                cleanUserTable()
             }
         }
 
@@ -89,10 +112,11 @@ class UserDaoTest {
         fun `get all users over empty table returns none`() {
             transaction {
 
-                SchemaUtils.create(Users)
                 val userDAO = UserDAO()
 
                 assertEquals(0, userDAO.getAll().size)
+
+                cleanUserTable()
             }
         }
 
@@ -103,6 +127,8 @@ class UserDaoTest {
                 val userDAO = populateUserTable()
 
                 assertEquals(null,userDAO.findUserByEmail(nonExistingEmail))
+
+                cleanUserTable()
             }
         }
 
@@ -113,6 +139,8 @@ class UserDaoTest {
                 val userDAO = populateUserTable()
 
                 assertEquals(user1,userDAO.findUserByEmail(user1.email))
+
+                cleanUserTable()
             }
         }
     }
@@ -129,6 +157,8 @@ class UserDaoTest {
                 val user3Updated = User(3, "new username", "new@email.ie")
                 userDAO.update(user3.id, user3Updated)
                 assertEquals(user3Updated, userDAO.findUserById(user3.id))
+
+                cleanUserTable()
             }
         }
 
@@ -138,11 +168,12 @@ class UserDaoTest {
 
                 val userDAO = populateUserTable()
 
-                val user4Updated = User(4, "new username", "new email")
-                userDAO.update(4, user4Updated)
+                val user4Updated = User(nonexisitingid, "new username", "new email")
+                userDAO.update(nonexisitingid, user4Updated)
                 assertEquals(null, userDAO.findUserById(4))
                 assertEquals(3,userDAO.getAll().size)
 
+                cleanUserTable()
             }
         }
     }
@@ -156,8 +187,10 @@ class UserDaoTest {
                 val userDAO = populateUserTable()
 
                 assertEquals(3, userDAO.getAll().size)
-                userDAO.delete(4)
+                userDAO.delete(nonexisitingid)
                 assertEquals(3, userDAO.getAll().size)
+
+                cleanUserTable()
             }
         }
     }

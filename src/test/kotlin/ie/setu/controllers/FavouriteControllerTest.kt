@@ -188,12 +188,18 @@ class FavouriteControllerTest {
 
         @Test
         fun `get all favourites when favourite exists`() {
-            addFavourite(favvaliduserid1,favvalidactivityid1)
+            transaction {
+                populateUserTable()
+                populateActivityTable()
+                populateFavouriteTable()
 
-            val getResponse = retrieveFavourites()
-            assertEquals(200, getResponse.status)
+                addFavourite(favvaliduserid1, favvalidactivityid1)
 
-            clearDB()
+                val getResponse = retrieveFavourites()
+                assertEquals(200, getResponse.status)
+
+                clearDB()
+            }
         }
 
         @Test
@@ -204,14 +210,20 @@ class FavouriteControllerTest {
 
         @Test
         fun `get favourite by correct id`() {
-           val addResponse = addFavourite(favvaliduserid1, favvalidactivityid1)
-            val addedFavourite : Favourite = jsonToObject(addResponse.body.toString())
+            transaction {
+                populateUserTable()
+                populateActivityTable()
+                populateFavouriteTable()
 
-            val getResponse = retrieveFavourite(addedFavourite.id)
+                val addResponse = addFavourite(favvaliduserid1, favvalidactivityid1)
+                val addedFavourite: Favourite = jsonToObject(addResponse.body.toString())
 
-            assertEquals(200, getResponse.status)
+                val getResponse = retrieveFavourite(addedFavourite.id)
 
-            clearDB()
+                assertEquals(200, getResponse.status)
+
+                clearDB()
+            }
         }
 
         @Test
@@ -223,14 +235,20 @@ class FavouriteControllerTest {
 
         @Test
         fun `get favourites by existing userId`() {
-            val addResponse = addFavourite(favvaliduserid1, favvalidactivityid1)
-            val addedFavourite : Favourite = jsonToObject(addResponse.body.toString())
+            transaction {
+                populateUserTable()
+                populateActivityTable()
+                populateFavouriteTable()
 
-            val getResponse = retrieveFavourite(addedFavourite.id)
-            assertEquals(200, getResponse.status)
+                val addResponse = addFavourite(favvaliduserid1, favvalidactivityid1)
+                val addedFavourite: Favourite = jsonToObject(addResponse.body.toString())
 
-            deleteFavouritesByUserId(favvaliduserid1)
-            deleteFavouritesByUserId(favvaliduserid2)
+                val getResponse = retrieveFavourite(addedFavourite.id)
+                assertEquals(200, getResponse.status)
+
+                deleteFavouritesByUserId(favvaliduserid1)
+                deleteFavouritesByUserId(favvaliduserid2)
+            }
         }
 
         @Test
@@ -262,13 +280,19 @@ class FavouriteControllerTest {
 
         @Test
         fun `delete favourite by existing id`() {
-            val addResponse = addFavourite(favvaliduserid1, favvalidactivityid1)
-            val addedFavourite : Favourite = jsonToObject(addResponse.body.toString())
-            val delResponse = deleteFavourite(addedFavourite.id)
+            transaction {
+                populateUserTable()
+                populateActivityTable()
+                populateFavouriteTable()
 
-            assertEquals(204, delResponse.status)
+                val addResponse = addFavourite(favvaliduserid1, favvalidactivityid1)
+                val addedFavourite: Favourite = jsonToObject(addResponse.body.toString())
+                val delResponse = deleteFavourite(addedFavourite.id)
 
-            clearDB()
+                assertEquals(204, delResponse.status)
+
+                clearDB()
+            }
 
         }
 
@@ -280,13 +304,19 @@ class FavouriteControllerTest {
 
         @Test
         fun `delete favourites by existing user id`() {
-            val addResponse = addFavourite(favvaliduserid1, favvalidactivityid1)
-            val addedFavourite : Favourite = jsonToObject(addResponse.body.toString())
-            val delResponse = deleteFavouritesByUserId(addedFavourite.userid)
+            transaction {
+                populateUserTable()
+                populateActivityTable()
+                populateFavouriteTable()
 
-            assertEquals(204, delResponse.status)
+                val addResponse = addFavourite(favvaliduserid1, favvalidactivityid1)
+                val addedFavourite: Favourite = jsonToObject(addResponse.body.toString())
+                val delResponse = deleteFavouritesByUserId(addedFavourite.userid)
 
-            clearDB()
+                assertEquals(204, delResponse.status)
+
+                clearDB()
+            }
         }
 
         @Test
@@ -298,13 +328,21 @@ class FavouriteControllerTest {
 
         @Test
         fun `delete favourites by existing activity id`() {
-            val addResponse = addFavourite(favvaliduserid1, favvalidactivityid1)
-            val addedFavourite : Favourite = jsonToObject(addResponse.body.toString())
-            val delResponse = deleteFavouritesByActivityId(addedFavourite.activityid)
+            transaction {
+                populateUserTable()
+                populateActivityTable()
+                populateFavouriteTable()
 
-            assertEquals(204, delResponse.status)
 
-            clearDB()
+                val addResponse = addFavourite(favvaliduserid1, favvalidactivityid1)
+                val addedFavourite: Favourite = jsonToObject(addResponse.body.toString())
+                val delResponse = deleteFavouritesByActivityId(addedFavourite.activityid)
+
+                assertEquals(204, delResponse.status)
+
+                clearDB()
+            }
+
         }
 
         @Test

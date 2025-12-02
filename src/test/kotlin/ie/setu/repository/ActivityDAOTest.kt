@@ -15,8 +15,10 @@ import junit.framework.TestCase.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.TestFactory
 import ie.setu.domain.repository.ActivityDAO
+import ie.setu.helpers.TestDatabaseConfig
 import ie.setu.helpers.users
 import ie.setu.helpers.validDateTime
+import org.junit.jupiter.api.BeforeEach
 
 
 /** users put the user from all tests to fixtures maybe? users can be accessed from other tests **/
@@ -55,12 +57,16 @@ class ActivityDaoTest {
 
 
     companion object {
-
         @BeforeAll
         @JvmStatic
-        internal fun setupInMemoryDatabaseConnection() {
-            Database.connect("jdbc:h2:mem:test", driver = "org.h2.Driver", user = "root", password = "")
+        fun setupInMemoryDatabase() {
+            TestDatabaseConfig.connect()
         }
+    }
+
+    @BeforeEach
+    fun resetDatabase() {
+        TestDatabaseConfig.reset()
     }
 
     @Nested
