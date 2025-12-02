@@ -27,6 +27,9 @@ jobs:
         
     - name: Build the application with Maven
       run: mvn clean package -DskipTests
+    
+    - name: Run tests with Jacoco
+      run: mvn test jacoco:report
 
     - name: Upload target directory
       uses: actions/upload-artifact@v4
