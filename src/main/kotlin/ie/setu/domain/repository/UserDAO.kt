@@ -10,8 +10,16 @@ import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.update
 
+/**
+ * Manages database transactions and returns the results
+ */
+
 class UserDAO {
 
+    /**
+     * Gets all users
+     * @return list of users
+     */
     fun getAll(): ArrayList<User> {
         val userList: ArrayList<User> = arrayListOf()
         transaction {
@@ -22,6 +30,10 @@ class UserDAO {
         return userList
     }
 
+    /**
+     * retrieves user by specified [id]
+     * @return user where id matches
+     */
     fun findUserById(id: Int): User? {
         return transaction {
             Users.selectAll().where { Users.id eq id}
@@ -30,6 +42,10 @@ class UserDAO {
         }
     }
 
+    /**
+     * retrieves a user by specified [email]
+     * @return user where email matches
+     */
     fun findUserByEmail(email: String): User? {
         return transaction {
             Users.selectAll().where {Users.email eq email}
@@ -38,6 +54,10 @@ class UserDAO {
         }
     }
 
+    /**
+     * adds a [user] to the users table
+     * @return the id of the added user
+     */
     fun save(user: User) : Int? {
         return transaction {
             Users.insert {
@@ -47,6 +67,9 @@ class UserDAO {
         }
     }
 
+    /**
+     * Updates the [user] with the specific [id]
+     */
     fun update(id: Int, user: User) : Int {
         return transaction {
             Users.update({ Users.id eq id }) {
@@ -56,6 +79,9 @@ class UserDAO {
         }
     }
 
+    /**
+     * Deletes user with specified [id]
+     */
     fun delete(id: Int?) : Int? {
         return transaction {
             Users.deleteWhere { Users.id eq id as Int }
