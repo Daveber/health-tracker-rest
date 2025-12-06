@@ -177,6 +177,11 @@
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
                 <version>${kotlin.version}</version>
+                <configuration>
+                <kotlinDaemonJvmArgs>
+                    <arg>-Xmx4096m</arg>
+                </kotlinDaemonJvmArgs>
+                </configuration>
                 <executions>
                     <execution>
                         <id>compile</id>
@@ -248,7 +253,7 @@
                     </execution>
                     <execution>
                         <id>report</id>
-                        <phase>test</phase>
+                        <phase>verify</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>
@@ -261,7 +266,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.5.4</version>
                 <configuration>
-                    <argLine>@{argLine} -Xmx8192m</argLine>
+                    <argLine>@{argLine} -Xmx4096m</argLine>
                     <includes>
                         <include>Test*</include>
                         <include>*Test</include>
