@@ -2,6 +2,7 @@ package ie.setu.helpers
 
 import ie.setu.domain.Activity
 import ie.setu.domain.Favourite
+import ie.setu.domain.Goal
 import ie.setu.domain.User
 import org.jetbrains.exposed.sql.jodatime.dateTimeParam
 import org.jetbrains.exposed.sql.jodatime.datetime
@@ -28,8 +29,8 @@ val validUserId = 1
 val newValidActivity = Activity(validActivityId, validDescription,validDuration, validCalories, validDateTime, validUserId)
 
 val activities = arrayListOf<Activity>(
-    Activity(1, "Running", 1.30, 120, validDateTime, 1),
-    Activity(2, "Swimming", 1.30, 120, validDateTime, 2),
+    Activity(1, "Running", 1.30, 133, validDateTime, 1),
+    Activity(2, "Swimming", 1.30, 122, validDateTime, 2),
     Activity(3, "Rowing", 1.30, 120, validDateTime, 1),
     Activity(4, "Archery", 1.30, 120, validDateTime, 2)
 )
@@ -38,6 +39,11 @@ val favourites = arrayListOf<Favourite>(
     Favourite(userid = 1, activityid = 1, id = 1),
     Favourite(userid = 2,  activityid = 2, id = 2),
     Favourite(userid = 3, activityid = 1, id = 3)
+)
+
+val goals = arrayListOf<Goal>(
+    Goal(userid = 1, targetCalories = 100, recommendedid = 1, id =1),
+    Goal(userid = 2, targetCalories = 200, recommendedid = 2, id =2),
 )
 
 val favvaliduserid1 = 1
