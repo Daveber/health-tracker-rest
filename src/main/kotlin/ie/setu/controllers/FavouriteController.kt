@@ -82,7 +82,10 @@ object FavouriteController {
 //        }
     }
 
-    /** Delete favourite with specified favourite id **/
+    /**
+     * Delete favourite with specified favourite id
+      */
+
     fun deleteFavouriteById(ctx: Context) {
         if (favouriteDAO.deletebyId(ctx.pathParam("favourite-id").toInt()) != 0) {
             ctx.status(204)

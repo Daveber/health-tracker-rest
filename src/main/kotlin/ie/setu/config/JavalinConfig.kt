@@ -3,6 +3,7 @@ package ie.setu.config
 import io.javalin.Javalin
 import ie.setu.controllers.ActivityController
 import ie.setu.controllers.FavouriteController
+import ie.setu.controllers.GoalController
 import ie.setu.controllers.UserController
 import ie.setu.domain.Favourite
 import ie.setu.utils.jsonObjectMapper
@@ -58,6 +59,16 @@ class JavalinConfig {
         app.delete("/api/favourites/{favourite-id}", FavouriteController::deleteFavouriteById)
         app.delete("/api/users/{user-id}/favourites", FavouriteController::deleteFavouritesByUserId)
         app.delete("/api/activities/{activity-id}/favourites", FavouriteController::deleteFavouriteByActivityId)
+
+        /** Goal Endpoints **/
+        app.get("/api/goals", GoalController::getAllGoals)
+        app.get("/api/goals/{goal-id}", GoalController::getGoalById)
+        app.get("/api/users/{user-id}/goals", GoalController::getGoalByUserId)
+        app.get("/api/users/{user-id}/goals/{target-cal}/recommendation", GoalController::getRecommended) //get recommended endpoint
+        app.post("/api/goals", GoalController::addGoal)
+        //app.post("/api/users/{user-id}/goals", GoalController::addGoal) //experimental
+        app.delete("/api/goals/{goal-id}", GoalController::deleteGoal)
+        app.patch("/api/goals/{goal-id}", GoalController::updateGoal)
 
         /** Vue Routes **/
         app.get("/", VueComponent("<home-page></home-page>"))
