@@ -29,8 +29,8 @@ val validUserId = 1
 val newValidActivity = Activity(validActivityId, validDescription,validDuration, validCalories, validDateTime, validUserId)
 
 val activities = arrayListOf<Activity>(
-    Activity(1, "Running", 1.30, 133, validDateTime, 1),
-    Activity(2, "Swimming", 1.30, 122, validDateTime, 2),
+    Activity(1, "Running", 1.30, 152, validDateTime, 1),
+    Activity(2, "Swimming", 1.30, 147, validDateTime, 2),
     Activity(3, "Rowing", 1.30, 120, validDateTime, 1),
     Activity(4, "Archery", 1.30, 120, validDateTime, 2)
 )

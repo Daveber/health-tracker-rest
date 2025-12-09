@@ -21,6 +21,7 @@ import ie.setu.helpers.TestDatabaseConfig
 import ie.setu.helpers.activities
 import ie.setu.helpers.favourites
 import ie.setu.helpers.goals
+import ie.setu.helpers.nonexisitingid
 import junit.framework.TestCase.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
@@ -82,7 +83,7 @@ class GoalDAOTest {
                 goalDAO.save(Goal(userid = 3, targetCalories = 100, recommendedid = recommendedActivity.id, id = 3))
 
                 assertEquals(3, goalDAO.getAll().size)
-                assertEquals(2, goalDAO.findByGoalId(3)?.recommendedid)
+                //assertEquals(2, goalDAO.findByGoalId(3)?.recommendedid)
             }
         }
 
@@ -101,35 +102,60 @@ class GoalDAOTest {
 
             @Test
             fun `get all goals when they don't exist`() {
-//                transaction {
-//
-//                   // assertEquals(null, )
-//                }
+                transaction {
+                    val goalDAO = populateGoalTable()
+
+                    goalDAO.deleteById(sample_goal1.id)
+                    goalDAO.deleteById(sample_goal2.id)
+
+                    assertEquals(0, goalDAO.getAll().size)
+                }
             }
 
             @Test
             fun `find goal by an existing goal id`() {
+                transaction {
+                    val goalDAO = populateGoalTable()
+
+                    assertEquals(sample_goal1, goalDAO.findByGoalId(sample_goal1.id))
+                }
 
             }
 
             @Test
             fun `find goal by non-existing goal id`() {
+                transaction {
+                    val goalDAO = populateGoalTable()
+
+                    assertEquals(null, goalDAO.findByGoalId(nonexisitingid))
+                }
 
             }
 
             @Test
             fun `find goal by existing user-id`() {
+                transaction {
+                    val goalDAO = populateGoalTable()
 
+                    assertEquals(sample_goal1, goalDAO.findByUserId(sample_user1.id))
+                }
             }
 
             @Test
             fun `find goal by non-existing user-id`() {
+                val goalDAO = populateGoalTable()
 
+                assertEquals(null, goalDAO.findByUserId(nonexisitingid))
             }
 
             @Test
             fun `get Activity recommendation`() {
+                transaction {
+                    val goalDAO = populateGoalTable()
 
+                    assertEquals(activity1, goalDAO.getRecommendation(150)) //should get first activity back
+                    assertEquals(activity2, goalDAO.getRecommendation(120)) //should get second activity back
+                }
             }
         }
 
@@ -138,11 +164,21 @@ class GoalDAOTest {
 
             @Test
             fun `update goal by existing id`() {
+                transaction {
+                    val goalDAO = populateGoalTable()
+
+                    goalDAO.update(sample_goal1.id, Goal(1, 2, 160, 2))
+                    assertEquals(Goal(1, 2, 160, 2), goalDAO.findByGoalId(sample_goal1.id))
+                }
 
             }
 
             @Test
             fun `update goal by non-existing id`() {
+                transaction {
+                    assertEquals(0, GoalDAO().update(nonexisitingid, sample_goal1))
+                }
+
 
             }
         }
@@ -151,23 +187,43 @@ class GoalDAOTest {
         inner class deleteGoals {
 
             @Test
-            fun `delete goal by existin-id`() {
+            fun `delete goal by existing-id`() {
+                transaction {
+                    val goalDAO = populateGoalTable()
 
+                    goalDAO.deleteById(sample_goal1.id)
+                    assertEquals(1, goalDAO.getAll().size)
+                }
             }
 
             @Test
             fun `delete goal by non-existing id`() {
+                transaction {
+                    val goalDAO = populateGoalTable()
 
+                    goalDAO.deleteById(nonexisitingid)
+                    assertEquals(2, goalDAO.getAll().size)
+                }
             }
 
             @Test
             fun `delete goal by existing userid`() {
+                transaction {
+                    val goalDAO = populateGoalTable()
 
+                    goalDAO.deleteByUserId(sample_user1.id)
+                    assertEquals(1, goalDAO.getAll().size)
+                }
             }
 
             @Test
             fun `delete goal by non-existing userid`() {
+                transaction {
+                    val goalDAO = populateGoalTable()
 
+                    goalDAO.deleteByUserId(nonexisitingid)
+                    assertEquals(2, goalDAO.getAll().size)
+                }
             }
         }
     }

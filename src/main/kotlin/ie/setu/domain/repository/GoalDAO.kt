@@ -9,6 +9,7 @@ import ie.setu.utils.mapToGoal
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
+import kotlin.math.abs
 
 
 class GoalDAO {
@@ -87,7 +88,7 @@ class GoalDAO {
     fun getRecommendation(targetCalories: Int): Activity {
         return transaction {
             val activitiesList = ActivityDAO().getAll()
-            val closestActivity = activitiesList.minByOrNull { it.calories - targetCalories }
+            val closestActivity = activitiesList.minByOrNull { abs(it.calories - targetCalories) }
             activitiesList.first { it.calories == closestActivity?.calories }
         }
     }
