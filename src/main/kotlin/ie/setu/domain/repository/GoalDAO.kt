@@ -57,7 +57,7 @@ class GoalDAO {
     fun save(goal: Goal): Int? {
         return transaction {
             Goals.insert {
-                it[userid] = goal.id
+                it[userid] = goal.userid
                 it[targetCalories] = goal.targetCalories
                 it[recommendedid] = goal.recommendedid
             } get Goals.id
@@ -90,6 +90,29 @@ class GoalDAO {
             val activitiesList = ActivityDAO().getAll()
             val closestActivity = activitiesList.minByOrNull { abs(it.calories - targetCalories) }
             activitiesList.first { it.calories == closestActivity?.calories }
+        }
+    }
+
+    /**
+     * get Activity recommendation based on [targetCalories] return id
+     */
+    fun getRecommendationId(targetCalories: Int): Int {
+        return transaction {
+            val activitiesList = ActivityDAO().getAll()
+            val closestActivity = activitiesList.minByOrNull { abs(it.calories - targetCalories) }
+            val closestActivityid = activitiesList.first { it.calories == closestActivity?.calories }
+            closestActivityid.id
+        }
+    }
+
+    //write Test in Dao
+    fun getRecommendationForGoal(goalid: Int): Int {
+        return transaction {
+            val caloretic_goal = GoalDAO().findByGoalId(goalid)!!.targetCalories
+            val activitiesList = ActivityDAO().getAll()
+            val closestActivity = activitiesList.minByOrNull { abs(it.calories - caloretic_goal) }
+            val closestActivityid = activitiesList.first { it.calories == closestActivity?.calories }
+            closestActivityid.id
         }
     }
 

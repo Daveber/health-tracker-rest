@@ -157,6 +157,16 @@ class GoalDAOTest {
                     assertEquals(activity2, goalDAO.getRecommendation(120)) //should get second activity back
                 }
             }
+
+            @Test
+            fun `get Activity recommendation id`() {
+                transaction {
+                    val goalDAO = populateGoalTable()
+
+                    assertEquals(activity1.id, goalDAO.getRecommendationId(150)) //should get first activity back
+                    assertEquals(activity2.id, goalDAO.getRecommendationId(120)) //should get second activity back
+                }
+            }
         }
 
         @Nested

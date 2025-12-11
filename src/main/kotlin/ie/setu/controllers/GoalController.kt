@@ -107,4 +107,17 @@ object GoalController {
             ctx.status(404)
         }
     }
+
+    /**
+     * Get Recommended activity based on target calories
+     */
+    fun getRecommendedId(ctx: Context) {
+        val recommendedId = goalDAO.getRecommendationForGoal(ctx.pathParam("goal-id").toInt())
+        if (recommendedId != null) {
+            ctx.json(recommendedId)
+            ctx.status(200)
+        } else {
+            ctx.status(404)
+        }
+    }
 }

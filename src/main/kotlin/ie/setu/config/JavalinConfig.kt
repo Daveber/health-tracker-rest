@@ -64,7 +64,8 @@ class JavalinConfig {
         app.get("/api/goals", GoalController::getAllGoals)
         app.get("/api/goals/{goal-id}", GoalController::getGoalById)
         app.get("/api/users/{user-id}/goals", GoalController::getGoalByUserId)
-        app.get("/api/users/{user-id}/goals/{target-cal}/recommendation", GoalController::getRecommended) //get recommended endpoint
+        //app.get("/api/users/{user-id}/goals/{target-cal}/recommendation", GoalController::getRecommended) //get recommended endpoint
+        app.get("/api/goals/{goal-id}/recommended", GoalController::getRecommendedId) //get recommended endpoint
         app.post("/api/goals", GoalController::addGoal)
         //app.post("/api/users/{user-id}/goals", GoalController::addGoal) //experimental
         app.delete("/api/goals/{goal-id}", GoalController::deleteGoal)

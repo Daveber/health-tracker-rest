@@ -125,7 +125,7 @@ class FavouriteControllerTest {
         return Unirest.delete(origin + "/api/favourites/${favouriteId}").asString()
     }
 
-    /** Helper function to delete favourites by user id**/
+    /** Helper function to delete favourites by user id **/
     private fun deleteFavouritesByUserId(userId: Int): HttpResponse<String> {
         return Unirest.delete(origin + "/api/users/${userId}/favourites").asString()
     }
@@ -169,18 +169,6 @@ class FavouriteControllerTest {
             }
             clearDB()
         }
-
-//        @Test
-//        fun `add favourite with incorrect details`() {
-//            transaction {
-//                val userDao = populateUserTable()
-//                val activityDAO = populateActivityTable()
-//                val favouriteDAO = populateFavouriteTable()
-//
-//                val addResponse = addFavourite(-1, -1)
-//                assertEquals(400, addResponse.status)
-//            }
-//        }
     }
 
     @Nested
