@@ -32,8 +32,7 @@ class GoalDAO {
      */
     fun findByGoalId(id: Int): Goal? {
         return transaction {
-            Goals
-                .selectAll().where(Goals.id eq id)
+            Goals.selectAll().where(Goals.id eq id)
                 .map { mapToGoal(it) }
                 .firstOrNull()
         }
@@ -45,7 +44,7 @@ class GoalDAO {
     fun findByUserId(id: Int): Goal? {
         return transaction {
             Goals.selectAll()
-                .where(Goals.id eq id)
+                .where(Goals.userid eq id)
                 .map{ mapToGoal(it)}
                 .firstOrNull()
         }

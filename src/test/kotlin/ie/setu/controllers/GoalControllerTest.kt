@@ -36,6 +36,7 @@ import ie.setu.repository.sampleuser1
 import ie.setu.repository.user1
 import ie.setu.repository.user2
 import ie.setu.utils.jsonToObject
+import io.fabric8.openshift.api.model.config.v1.IdentityProviderFluent
 import org.junit.jupiter.api.Assertions.assertEquals
 import kong.unirest.core.JsonNode
 import org.junit.jupiter.api.Nested
@@ -63,7 +64,7 @@ class GoalControllerTest {
     private val origin = "http://localhost:" + app.port()
 
     internal fun populateUserTable(): UserDAO {
-        SchemaUtils.create(Users)
+        //SchemaUtils.create(Users)
 
         val userDAO = UserDAO()
 
@@ -74,7 +75,7 @@ class GoalControllerTest {
     }
 
     internal fun populateActivityTable(): ActivityDAO {
-        SchemaUtils.create(Activities)
+        //SchemaUtils.create(Activities)
 
         val activityDAO = ActivityDAO()
 
@@ -85,7 +86,7 @@ class GoalControllerTest {
     }
 
     internal fun populateGoalTable(): GoalDAO {
-        SchemaUtils.create(Goals)
+        //SchemaUtils.create(Goals)
 
         val goalDAO = GoalDAO()
 
@@ -98,10 +99,11 @@ class GoalControllerTest {
     /**
      * Helper function to add goal
      */
-    private fun addGoal(userId: Int, targetCalories: Int, recommendedId: Int): HttpResponse<JsonNode> {
+    private fun addGoal(id: Int, userId: Int, targetCalories: Int, recommendedId: Int): HttpResponse<JsonNode> {
         return Unirest.post( origin + "/api/goals")
             .body("""
                 {
+                    "id": "$id",
                     "userid": "$userId",
                     "targetCalories": "$targetCalories",
                     "recommendedid": "$recommendedId"
@@ -179,13 +181,12 @@ class GoalControllerTest {
 
         @Test
         fun `add goal with correct details`() {
-            transaction {
                 populateUserTable()
                 populateActivityTable()
                 populateGoalTable()
 
 
-                val addedResponse = addGoal(exampleuser1.id,sample_goal1.targetCalories,sample_activity1.id)
+                val addedResponse = addGoal(sample_goal1.id,exampleuser1.id,sample_goal1.targetCalories,sample_activity1.id)
                 assertEquals(201, addedResponse.status)
 
                 val addedGoal: Goal = jsonToObject(addedResponse.body.toString())
@@ -194,7 +195,6 @@ class GoalControllerTest {
                 assertEquals(sample_goal1.userid, addedGoal.userid)
 
                 assertEquals(200, getAllGoals().status)
-            }
         }
     }
 
@@ -203,38 +203,66 @@ class GoalControllerTest {
 
         @Test
         fun `get all goals when they exist`(){
+                populateUserTable()
+                populateActivityTable()
+                populateGoalTable()
 
-            assertEquals(200, getAllGoals().status) //testing if database resets correctly
+                addGoal(sample_goal1.id, exampleuser1.id, sample_goal1.targetCalories, sample_activity1.id)
 
+                assertEquals(200, getAllGoals().status)
         }
 
         @Test
         fun `get all goals when they dont exist`(){
-
+                assertEquals(404, getAllGoals().status)
         }
 
         @Test
         fun `get goal by exisiting id`(){
 
+            populateUserTable()
+            populateActivityTable()
+            populateGoalTable()
+
+            val addedResponse = addGoal(sample_goal1.id, exampleuser1.id, sample_goal1.targetCalories, sample_activity1.id)
+            val addedGoal: Goal = jsonToObject(addedResponse.body.toString())
+
+            assertEquals(200, getGoalById(addedGoal.id).status)
         }
 
         @Test
         fun `get goal by non-existing id`(){
-
+        assertEquals(404, getGoalByUserId(nonexisitingid).status)
         }
 
         @Test
-        fun `get goal by exisiting user id`(){
+        fun `get goal by existing user id`(){
+            populateUserTable()
+            populateActivityTable()
+            populateGoalTable()
 
+            val addedResponse = addGoal(sample_goal1.id, exampleuser1.id, sample_goal1.targetCalories, sample_activity1.id)
+            val addedGoal: Goal = jsonToObject(addedResponse.body.toString())
+
+            assertEquals(200, getGoalByUserId(addedGoal.userid).status)
         }
 
         @Test
-        fun `get goal by non-exisiting id`(){
+        fun `get goal by non-exisiting id`() {
+            assertEquals(404, getGoalByUserId(nonexisitingid).status)
         }
 
         @Test
-        fun `get activity recommendation for goal`(){
+        fun `get activity recommendation for goal`() {
 
+            populateUserTable()
+            populateActivityTable()
+            populateGoalTable()
+
+            val recommendedResponse = getRecommendation(sample_goal1.id)
+            val Recommended : Int = recommendedResponse.body.toInt()
+
+            addGoal(sample_goal1.id,exampleuser1.id, sample_goal1.targetCalories, Recommended)
         }
     }
 
@@ -244,11 +272,19 @@ class GoalControllerTest {
         @Test
         fun `update goal by existing id`(){
 
+            populateUserTable()
+            populateActivityTable()
+            populateGoalTable()
+
+            val updatedGoal = updateGoal(sample_goal1.id, exampleuser1.id, 1000, sample_activity1.id)
+
+            assertEquals(204, updatedGoal.status)
         }
 
         @Test
         fun `update goal by non-existing id`(){
 
+            assertEquals(404, updateGoal(sample_goal1.id, exampleuser1.id, 1000, sample_activity1.id).status)
         }
     }
 
@@ -257,12 +293,16 @@ class GoalControllerTest {
 
         @Test
         fun `delete goal by existing id`(){
+            populateUserTable()
+            populateActivityTable()
+            populateGoalTable()
 
+            assertEquals(204, deleteGoal(sample_goal1.id).status)
         }
 
         @Test
         fun `delete goal by non-existing id`(){
-
+            assertEquals(404, deleteGoal(sample_goal1.id).status)
         }
     }
 }

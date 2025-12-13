@@ -99,7 +99,7 @@ class FavouritesDAOTest {
         }
 
         @Test
-        fun `get favourite by id that doesnt exist, resutls in no favourite returned`() {
+        fun `get favourite by id that doesnt exist, results in no favourite returned`() {
             transaction {
                 val favouriteDAO = populateFavouriteTable()
 
