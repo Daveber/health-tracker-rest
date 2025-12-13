@@ -73,6 +73,7 @@ class JavalinConfig {
 
         /** Vue Routes **/
         app.get("/", VueComponent("<home-page></home-page>"))
+
         app.get("/users", VueComponent("<user-overview></user-overview>"))
         app.get("/users/{user-id}", VueComponent("<user-profile></user-profile>"))
         app.get("/users/{user-id}/activities", VueComponent("<user-activity-overview></user-activity-overview>"))
@@ -84,6 +85,9 @@ class JavalinConfig {
         
         app.get("/activities/{activity-id}/favourites", VueComponent("<favourites-activity-overview></favourites-activity-overview>")) //get favourite activities by id list ? maybe implement search bar in user favourites ?
         app.get("/users/{user-id}/favourites", VueComponent("<favourites-user-overview></favourites-user-overview>")) //get favourite activities by user id (used for individual user)
+
+        app.get("/goals", VueComponent("<goal-overview></goal-overview>"))
+        app.get("/goals/{goal-id}", VueComponent("<goal-profile></goal-profile>"))
     }
 
     private fun getRemoteAssignedPort(): Int {

@@ -21,6 +21,9 @@
             <li class="nav-item">
               <a class="nav-link" href="/favourites">Favourites</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/goals">Goals</a>
+            </li>
           </ul>
         </div>
       </nav>
