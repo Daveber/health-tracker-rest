@@ -1,30 +1,38 @@
 <template id="home-page">
   <app-layout>
     <div class="row">
-      <div class="col">
-        <div class="card">
-          <h5 class="card-header">Registered Users</h5>
+      <div class="col-md-4">
+        <div class="card text-center">
+          <h5 class="card-header bg-primary text-black">
+            <i class="fas fa-users"></i> Registered Users
+          </h5>
           <div class="card-body">
-            <h5 class="card-title">{{users.length}} users</h5>
-            <a href="/users" class="btn btn-primary">More Details...</a>
+            <h5 class="card-title">{{users.length}}</h5>
+            <a href="/users" class="btn btn-outline-primary">View Users</a>
           </div>
         </div>
       </div>
-      <div class="col">
-        <div class="card">
-          <h5 class="card-header">Total Activities</h5>
+
+      <div class="col-md-4">
+        <div class="card text-center">
+          <h5 class="card-header bg-primary text-black">
+            <i class="fas fa-running"></i> Activities
+          </h5>
           <div class="card-body">
-            <h5 class="card-title">{{activities.length}} activities</h5>
-            <a href="/activities" class="btn btn-primary">More Details...</a>
+            <h5 class="card-title">{{activities.length}}</h5>
+            <a href="/activities" class="btn btn-outline-primary">View Activities</a>
           </div>
         </div>
-        <div class="col">
-          <div class="card">
-            <h5 class="card-header">Total Goals</h5>
-            <div class="card-body">
-              <h5 class="card-title">{{goals.length}} goals</h5>
-              <a href="/goals" class="btn btn-primary">More Details...</a>
-            </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card text-center">
+          <h5 class="card-header bg-primary text-black">
+            <i class="fas fa-bullseye"></i> Goals
+          </h5>
+          <div class="card-body">
+            <h5 class="card-title">{{goals.length}}</h5>
+            <a href="/goals" class="btn btn-outline-primary">View Goals</a>
           </div>
         </div>
       </div>
@@ -54,3 +62,14 @@ app.component('home-page',
       }
     });
 </script>
+
+<style>
+
+.card {
+  border: 1px solid black;
+}
+
+.card-body {
+}
+
+</style>
