@@ -39,7 +39,7 @@
       <div class="list-group-item d-flex align-items-start"
            v-for="(user,index) in users" v-bind:key="index">
         <div class="mr-auto p-2">
-          <span><a :href="`/users/${user.id}`"> {{ user.name }} ({{ user.email }})</a></span>
+          <span><a :href="`/users/${user.id}`"> {{ user.name }} ( {{ user.email }} )</a></span>
         </div>
         <div class="p2">
           <a :href="`/users/${user.id}`">

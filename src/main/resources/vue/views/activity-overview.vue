@@ -57,7 +57,7 @@
       <div class="list-group-item d-flex align-items-start"
            v-for="(activity,index) in activities" v-bind:key="index">
         <div class="mr-auto p-2">
-          <span><a :href="`/activities/${activity.id}`"> {{ activity.description }} ({{ activity.targetCalories }})</a></span>
+          <span><a :href="`/activities/${activity.id}`"> {{ activity.description }} ( duration: {{ activity.duration}} calories: {{activity.calories}} )</a></span>
         </div>
         <div class="p2">
           <a :href="`/activities/${activity.id}`">
