@@ -2,7 +2,7 @@
   <app-layout>
 
     <div class="card bg-light mb-3">
-      <div class="card-header">
+      <div class="card-header bg-primary text-black">
         <div class="row">
           <div class="col-6">
             Users
@@ -35,22 +35,21 @@
       </div>
     </div>
 
-    <div class="list-group list-group-flush">
-      <div class="list-group-item d-flex align-items-start"
-           v-for="(user,index) in users" v-bind:key="index">
-        <div class="mr-auto p-2">
-          <span><a :href="`/users/${user.id}`"> {{ user.name }} ( {{ user.email }} )</a></span>
-        </div>
-        <div class="p2">
-          <a :href="`/users/${user.id}`">
-            <button rel="tooltip" title="Update" class="btn btn-info btn-simple btn-link">
-              <i class="fa fa-pencil" aria-hidden="true"></i>
-            </button>
-          </a>
-          <button rel="tooltip" title="Delete" class="btn btn-info btn-simple btn-link"
-                  @click="deleteUser(user, index)">
-            <i class="fas fa-trash" aria-hidden="true"></i>
-          </button>
+    <div class="row">
+      <div class="col-md-3 mb-4" v-for="(user,index) in users" :key="index">
+        <div class="card text-center user-card">
+          <h5 class="card-title">{{ user.name }}</h5>
+          <div class="card-body">
+            <p class="card-text">{{ user.email }}</p>
+            <div class="d-flex justify-content-center">
+              <a :href="`/users/${user.id}`" class="btn btn-update">
+                <i class="fa fa-pencil"></i> Update
+              </a>
+              <button class="btn btn-delete" @click="deleteUser(user, index)">
+                <i class="fas fa-trash"></i> Delete
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -108,3 +107,58 @@ app.component("user-overview", {
   }
 });
 </script>
+
+<style>
+
+.btn {
+  font-size: x-small;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid;
+  background-color: transparent;
+  margin: 0 0.25rem;
+}
+
+.btn-update:hover {
+  background-color: #49adfb;
+}
+
+
+.btn-delete:hover {
+  background-color: red;
+}
+
+.fa-plus {
+  color: white;
+}
+
+.user-card {
+  border: solid black;
+  background: url('/users.jpg');
+  background-position: bottom right;
+}
+
+.user-card .card-body {
+  padding: 0.5rem;
+
+}
+
+.user-card .card-title {
+  border-bottom: 0.5px solid black;
+  background-color: #0affb3;
+}
+
+.user-card .card-header {
+  font-size: 1rem;
+  padding: 0.5rem;
+}
+
+.app-layout {
+  background-image: url('/users.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+</style>

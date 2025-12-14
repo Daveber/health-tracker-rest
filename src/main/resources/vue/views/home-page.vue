@@ -70,6 +70,15 @@ app.component('home-page',
 }
 
 .card-body {
+  background-image: url('/goals.jpg');
+}
+
+.app-layout {
+  background-image: url('/home.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
 }
 
 </style>

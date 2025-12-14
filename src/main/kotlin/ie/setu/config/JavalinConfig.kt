@@ -18,6 +18,7 @@ class JavalinConfig {
             { config ->
                 config.jsonMapper(JavalinJackson(jsonObjectMapper()))
                 config.staticFiles.enableWebjars()
+                config.staticFiles.add("vue/public")
                 config.vue.vueInstanceNameInJs = "app"
             }
         ).apply {

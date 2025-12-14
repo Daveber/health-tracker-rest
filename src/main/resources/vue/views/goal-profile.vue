@@ -33,3 +33,14 @@ app.component("goal-profile", {
   }
 });
 </script>
+
+<style>
+
+.app-layout {
+  background-image: url('/goals.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+</style>

@@ -88,7 +88,15 @@ app.component("app-layout", {template: "#app-layout"});
 }
 
 .nav-item {
-  fond-size: 1.0rem;
+  font-size: 1.0rem;
   letter-spacing: 0.5px;
 }
+//.app-layout {
+//  background-image: url('/goals.jpg');
+//  background-size: cover;
+//  background-position: center;
+//  background-repeat: no-repeat;
+//  min-height: 100vh;
+//}
+
 </style>
