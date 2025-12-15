@@ -177,11 +177,6 @@
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
                 <version>${kotlin.version}</version>
-                <configuration>
-                <kotlinDaemonJvmArgs>
-                    <arg>-Xmx4096m</arg>
-                </kotlinDaemonJvmArgs>
-                </configuration>
                 <executions>
                     <execution>
                         <id>compile</id>
