@@ -3,7 +3,8 @@ name: Build and Deploy to OpenShift
 on:
   push:
     branches:
-      - master  
+      - master
+      - Goal-Feature-implementation
 
 jobs:
   build:
