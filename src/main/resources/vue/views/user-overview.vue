@@ -140,7 +140,6 @@ app.component("user-overview", {
 
 .user-card .card-body {
   padding: 0.5rem;
-
 }
 
 .user-card .card-title {
