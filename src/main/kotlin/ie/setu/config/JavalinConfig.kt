@@ -3,6 +3,7 @@ package ie.setu.config
 import io.javalin.Javalin
 import ie.setu.controllers.ActivityController
 import ie.setu.controllers.FavouriteController
+import ie.setu.controllers.GoalController
 import ie.setu.controllers.UserController
 import ie.setu.domain.Favourite
 import ie.setu.utils.jsonObjectMapper
@@ -17,6 +18,7 @@ class JavalinConfig {
             { config ->
                 config.jsonMapper(JavalinJackson(jsonObjectMapper()))
                 config.staticFiles.enableWebjars()
+                config.staticFiles.add("vue/public")
                 config.vue.vueInstanceNameInJs = "app"
             }
         ).apply {
@@ -59,8 +61,20 @@ class JavalinConfig {
         app.delete("/api/users/{user-id}/favourites", FavouriteController::deleteFavouritesByUserId)
         app.delete("/api/activities/{activity-id}/favourites", FavouriteController::deleteFavouriteByActivityId)
 
+        /** Goal Endpoints **/
+        app.get("/api/goals", GoalController::getAllGoals)
+        app.get("/api/goals/{goal-id}", GoalController::getGoalById)
+        app.get("/api/users/{user-id}/goals", GoalController::getGoalByUserId)
+        //app.get("/api/users/{user-id}/goals/{target-cal}/recommendation", GoalController::getRecommended) //get recommended endpoint
+        app.get("/api/goals/{goal-id}/recommended", GoalController::getRecommendedId) //get recommended endpoint
+        app.post("/api/goals", GoalController::addGoal)
+        //app.post("/api/users/{user-id}/goals", GoalController::addGoal) //experimental
+        app.delete("/api/goals/{goal-id}", GoalController::deleteGoal)
+        app.patch("/api/goals/{goal-id}", GoalController::updateGoal)
+
         /** Vue Routes **/
         app.get("/", VueComponent("<home-page></home-page>"))
+
         app.get("/users", VueComponent("<user-overview></user-overview>"))
         app.get("/users/{user-id}", VueComponent("<user-profile></user-profile>"))
         app.get("/users/{user-id}/activities", VueComponent("<user-activity-overview></user-activity-overview>"))
@@ -72,6 +86,9 @@ class JavalinConfig {
         
         app.get("/activities/{activity-id}/favourites", VueComponent("<favourites-activity-overview></favourites-activity-overview>")) //get favourite activities by id list ? maybe implement search bar in user favourites ?
         app.get("/users/{user-id}/favourites", VueComponent("<favourites-user-overview></favourites-user-overview>")) //get favourite activities by user id (used for individual user)
+
+        app.get("/goals", VueComponent("<goal-overview></goal-overview>"))
+        app.get("/goals/{goal-id}", VueComponent("<goal-profile></goal-profile>"))
     }
 
     private fun getRemoteAssignedPort(): Int {

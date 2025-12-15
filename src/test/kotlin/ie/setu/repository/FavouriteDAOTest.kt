@@ -31,10 +31,14 @@ val samplefavourite1 = favourites[0]
 val samplefavourite2 = favourites[1]
 val samplefavourite3 = favourites[2]
 
+
 class FavouritesDAOTest {
 
+    /**
+     * populates the Favourite table by creating entries for users, activities and favourites returns the [FavouriteDAO]
+     */
     internal fun populateFavouriteTable(): FavouriteDAO {
-        SchemaUtils.create(Favourites)
+        //SchemaUtils.create(Favourites)
         val favouriteDAO = FavouriteDAO()
         val activityDAO = ActivityDAO()
         val userDAO = UserDAO()
@@ -95,7 +99,7 @@ class FavouritesDAOTest {
         }
 
         @Test
-        fun `get favourite by id that doesnt exist, resutls in no favourite returned`() {
+        fun `get favourite by id that doesnt exist, results in no favourite returned`() {
             transaction {
                 val favouriteDAO = populateFavouriteTable()
 
@@ -134,6 +138,7 @@ class FavouritesDAOTest {
 
     @Nested
     inner class DeleteFavourites {
+
         @Test
         fun `delete favourites by favourites id`() {
             transaction {
@@ -144,6 +149,7 @@ class FavouritesDAOTest {
                 assertEquals(2, favouriteDAO.getAll().size)
             }
         }
+
         @Test
         fun `delete favourites associated with user id`() {
             transaction {

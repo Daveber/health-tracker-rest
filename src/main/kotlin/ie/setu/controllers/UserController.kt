@@ -65,7 +65,6 @@ object UserController {
         } else {
             ctx.status(404)
         }
-
     }
 
     /** Delete user **/

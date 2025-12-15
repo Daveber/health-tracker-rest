@@ -6,6 +6,7 @@ import org.jetbrains.exposed.sql.Database
 import org.postgresql.util.PSQLException
 import ie.setu.domain.db.Activities
 import ie.setu.domain.db.Favourites
+import ie.setu.domain.db.Goals
 import ie.setu.domain.db.Users
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -41,6 +42,7 @@ class DBConfig {
                     SchemaUtils.create(Users)
                     SchemaUtils.create(Activities)
                     SchemaUtils.create(Favourites)
+                    SchemaUtils.create(Goals)
                 }
             } else {
                 logger.info { "Using remote PostgreSQL instance" }
