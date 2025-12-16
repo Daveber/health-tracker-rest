@@ -168,7 +168,7 @@ app.component("activity-overview", {
 
 .activity-card .card-title {
   border-bottom: 0.5px solid black;
-  background-color: #0affb3;
+  background-color: #00da00;
 }
 
 .activity-card .card-header {
