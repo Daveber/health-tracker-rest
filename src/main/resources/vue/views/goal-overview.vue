@@ -27,7 +27,7 @@
           </div>
         </div>
       </div>
-      <div class="card-body" :class="{'d-none': hideForm}">
+      <div class="card-body addGoal" :class="{'d-none': hideForm}">
         <form id="addGoal">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -48,7 +48,7 @@
             <input type="number" class="form-control" v-model="formData.goalrecommendedid" name="goalrecommendedid" placeholder="RecommendedID"/>
           </div>
         </form>
-        <button rel="tooltip" title="Update" class="btn btn-info btn-simple btn-link" @click="addGoal()">Add Goal</button>
+        <button rel="tooltip" title="Update" class="btn btn-info btn-simple btn-link addgoal-button" @click="addGoal()">Add Goal</button>
       </div>
     </div>
 
@@ -57,7 +57,7 @@
         <div class="card text-center goal-card">
           <h5 class="card-title">{{ goal.userid }}</h5>
           <div class="card-body">
-            <p class="card-text">{{ goal.recommendedid }}</p>
+            <p class="card-text">{{ goal.targetCalories }}</p>
             <div class="d-flex justify-content-center">
               <a :href="`/goals/${goal.id}`" class="btn btn-update">
                 <i class="fa fa-pencil"></i> Update
@@ -176,5 +176,25 @@ app.component("goal-overview", {
   background-position: center;
   background-repeat: no-repeat;
   min-height: 100vh;
+}
+
+.addGoal {
+  background: linear-gradient(180deg, #49adfb, springgreen);
+}
+
+.form-control {
+  background: linear-gradient(135deg, #0affb3, #91fad7);
+}
+
+.addgoal-button {
+  background-color: dodgerblue;
+  color: black;
+  padding: 5px;
+  font-size: small;
+}
+
+.input-group-text {
+  background-color: springgreen;
+  padding: 15px
 }
 </style>

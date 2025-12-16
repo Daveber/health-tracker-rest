@@ -16,7 +16,7 @@
           </div>
         </div>
       </div>
-      <div class="card-body" :class="{'d-none': hideForm}">
+      <div class="card-body adduser" :class="{'d-none': hideForm}">
         <form id="addUser">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -31,7 +31,7 @@
             <input type="email" class="form-control" v-model="formData.email" name="email" placeholder="Email"/>
           </div>
         </form>
-        <button rel="tooltip" title="Update" class="btn btn-info btn-simple btn-link" @click="addUser()">Add User</button>
+        <button rel="tooltip" title="Update" class="btn btn-info btn-simple btn-link adduser-button" @click="addUser()">Add User</button>
       </div>
     </div>
 
@@ -158,6 +158,26 @@ app.component("user-overview", {
   background-position: center;
   background-repeat: no-repeat;
   min-height: 100vh;
+}
+
+.adduser {
+  background: linear-gradient(180deg, #49adfb, springgreen);
+}
+
+.form-control {
+  background: linear-gradient(135deg, #0affb3, #91fad7);
+}
+
+.adduser-button {
+  background-color: dodgerblue;
+  color: black;
+  padding: 5px;
+  font-size: small;
+}
+
+.input-group-text {
+  background-color: springgreen;
+  padding: 15px
 }
 
 </style>
