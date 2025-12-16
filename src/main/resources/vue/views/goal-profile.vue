@@ -36,42 +36,30 @@
             <div class="input-group-prepend">
               <span class="input-group-text" id="input-user-email">User ID</span>
             </div>
-            <input type="email" class="form-control" v-model="goal.goaluserid" name="goaluserid" placeholder="UserID"/>
+            <input type="number" class="form-control" v-model="goal.goaluserid" name="goaluserid" placeholder="UserID"/>
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text" id="input-user-name">Target Calories</span>
             </div>
-            <input type="text" class="form-control" v-model="goal.goaltargetCalories" name="goaltargetCalories" placeholder="Calories"/>
+            <input type="number" class="form-control" v-model="goal.goaltargetCalories" name="goaltargetCalories" placeholder="Calories"/>
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text" id="input-user-email">Recommended ID</span>
             </div>
-            <input type="email" class="form-control" v-model="goal.goalrecommendedid" name="goalrecommendedid" placeholder="Recommended Activity ID"/>
+            <input type="number" class="form-control" v-model="goal.goalrecommendedid" name="goalrecommendedid" placeholder="Recommended Activity ID"/>
           </div>
         </form>
 
+        <div v-if="recommendedActivity" class="mt-3 p-2 border rounded bg-white">
+          <h5>Recommended Activity</h5> <p><strong>Description:</strong> {{ recommendedActivity.description }}
+        </p> <p><strong>Duration:</strong> {{ recommendedActivity.duration }} minutes</p>
+        </div>
+      </div>
+    </div>
   </app-layout>
-
-
 </template>
-
-<script>
-app.component("goal-profile", {
-  template: "#goal-profile",
-  data:() => ({
-    goal: null
-  }),
-  created: function () {
-    const goalId = this.$javalin.pathParams["goal-id"];
-    const url = `/api/goals/${goalId}`
-    axios.get(url)
-        .then(res => this.goal = res.data)
-        .catch(() => alert("Error while fetching goal" + goalId));
-  }
-});
-</script>
 
 <script>
 app.component("goal-profile", {
@@ -79,13 +67,17 @@ app.component("goal-profile", {
   data: () => ({
     goal: null,
     noGoalFound: false,
-    goals: []
+    goals: [],
+    recommendedActivity: null
   }),
   created: function () {
     const goalId = this.$javalin.pathParams["goal-id"];
     const url = `/api/goals/${goalId}`
     axios.get(url)
-        .then(res => this.goal = res.data)
+        .then(res => {
+          this.goal = res.data
+          this.getRecommendedActivity();
+        })
         .catch(error => {
           console.log("No goal found for the the current id in path parameter: " + error)
           this.noGoalFound = true
@@ -103,7 +95,7 @@ app.component("goal-profile", {
             recommendedid: this.goal.goalrecommendedid
           })
           .then(response =>
-              this.user.push(response.data))
+              this.goal.push(response.data))
           .catch(error => {
             console.log(error)
           })
@@ -123,9 +115,25 @@ app.component("goal-profile", {
               console.log(error)
             });
       }
+    },
+
+    async getRecommendedActivity () {
+      try {
+        const goalId = this.$javalin.pathParams["goal-id"];
+        const recommendedResponse = await axios.get(`/api/goals/${goalId}/recommended`);
+        const recommendedID = recommendedResponse.data;
+
+        if (recommendedID) {
+        }
+        const activityResponse = await axios.get(`/api/activities/${recommendedID}`);
+        this.recommendedActivity = activityResponse.data;
+      } catch(error) {
+        console.log(error)
+      }
     }
   }
 });
+
 </script>
 
 <style>
