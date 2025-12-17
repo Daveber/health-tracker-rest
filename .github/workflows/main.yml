@@ -31,11 +31,11 @@ jobs:
     - name: Run tests with Jacoco
       run: mvn test jacoco:report
 
-    - name: Upload target directory
+    - name: Upload Jacoco coverage
       uses: actions/upload-artifact@v4
       with:
-        name: target-artifact
-        path: target/
+        name: jacoco-report
+        path: target/site/jacoco.xml
         
   documentation:
     runs-on: ubuntu-latest
