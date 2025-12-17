@@ -136,4 +136,41 @@ app.component("activity-profile", {
   background-repeat: no-repeat;
   min-height: 100vh;
 }
+
+.card-header {
+  background-color: dodgerblue;
+  color: black;
+  font-weight: bold; font-size: 1.2rem;
+}
+
+
+.card-body {
+  background-color: #6fc2f3;
+  color: black;
+  font-weight: normal; font-size: 1.1rem;
+
+}
+
+.form-control {
+  border: 1px solid #b3d7ff;
+  color: #004085;
+}
+
+.fa-trash {
+  color: black;
+}
+
+.fa-save {
+  color: black;
+}
+
+.input-group-text {
+  border: 1px solid black;
+  background-color: springgreen;
+}
+
+.form-control {
+  border:  1px solid black;
+  background: linear-gradient(135deg, #0affb3, #91fad7);
+}
 </style>

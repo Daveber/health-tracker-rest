@@ -2,7 +2,7 @@
   <app-layout>
 
     <div class="card bg-light mb-3">
-      <div class="card-header">
+      <div class="card-header bg-primary text-black">
         <div class="row">
           <div class="col-6">
             Activities
@@ -53,25 +53,26 @@
       </div>
     </div>
 
-    <div class="list-group list-group-flush">
-      <div class="list-group-item d-flex align-items-start"
-           v-for="(activity,index) in activities" v-bind:key="index">
-        <div class="mr-auto p-2">
-          <span><a :href="`/activities/${activity.id}`"> {{ activity.description }} ( duration: {{ activity.duration}} calories: {{activity.calories}} )</a></span>
-        </div>
-        <div class="p2">
-          <a :href="`/activities/${activity.id}`">
-            <button rel="tooltip" title="Update" class="btn btn-info btn-simple btn-link">
-              <i class="fa fa-pencil" aria-hidden="true"></i>
-            </button>
-          </a>
-          <button rel="tooltip" title="Delete" class="btn btn-info btn-simple btn-link"
-                  @click="deleteActivity(activity, index)">
-            <i class="fas fa-trash" aria-hidden="true"></i>
-          </button>
+    <div class="row">
+      <div class="col-md-3 mb-4" v-for="(activity,index) in activities" :key="index">
+        <div class="card text-center activity-card">
+          <h5 class="card-title">{{ activity.description }}</h5>
+          <div class="card-body">
+            <p class="card-text">Duration: {{ activity.duration }}</p>
+            <p class="card-text">Calories: {{ activity.calories }}</p>
+            <div class="d-flex justify-content-center">
+              <a :href="`/activities/${activity.id}`" class="btn btn-update">
+                <i class="fa fa-pencil"></i> Update
+              </a>
+              <button class="btn btn-delete" @click="deleteActivity(activity, index)">
+                <i class="fas fa-trash"></i> Delete
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+
   </app-layout>
 </template>
 
@@ -131,6 +132,49 @@ app.component("activity-overview", {
 </script>
 
 <style>
+
+.btn {
+  font-size: x-small;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid;
+  background-color: transparent;
+  margin: 0 0.25rem;
+}
+
+.btn-update:hover {
+  background-color: #49adfb;
+}
+
+
+.btn-delete:hover {
+  background-color: red;
+}
+
+.fa-plus {
+  color: white;
+}
+
+.activity-card {
+  border: solid black;
+  background: url('/forest.jpg'), lightgray;
+  background-blend-mode: overlay;
+  background-position: center;
+}
+
+.activity-card .card-body {
+  padding: 0.5rem;
+}
+
+.activity-card .card-title {
+  border-bottom: 0.5px solid black;
+  background-color: #00da00;
+}
+
+.activity-card .card-header {
+  font-size: 1rem;
+  padding: 0.5rem;
+}
 
 .app-layout {
   background-image: url('/forest.jpg');

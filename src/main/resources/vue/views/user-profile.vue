@@ -47,9 +47,9 @@
           </div>
         </form>
 
-        <div class="card-footer text-left">
+        <div class="card-footer text-left-activities">
           <p v-if="activities.length === 0"> No activities yet...</p>
-          <p v-if="activities.length > 0"> Activities so far...</p>
+          <p v-if="activities.length > 0">  <i class="fas fa-running"></i> Activities <i class="fas fa-running"></i> </p>
           <ul>
             <li v-for="activity in activities">
               {{ activity.description }} for {{ activity.duration }} minutes
@@ -57,12 +57,12 @@
           </ul>
         </div>
 
-        <div class="card-footer text-left">
+        <div class="card-footer text-left-favourites">
           <p v-if="activities.length === 0"> No Favourites yet...</p>
-          <p v-if="activities.length > 0"> Favourites so far...</p>
+          <p v-if="activities.length > 0"> Favourites</p>
           <ul>
             <li v-for="activity in favourites">
-              Activity id: {{ activity.id }} Activity Name: {{activity.description}} TODO: Add Heart icon
+              <i class="fas fa-heart"></i> Activity id: {{ activity.id }} Activity Name: {{activity.description}} <i class="fas fa-heart"></i>
             </li>
           </ul>
         </div>
@@ -162,4 +162,56 @@ app.component("user-profile", {
   min-height: 100vh;
 }
 
+.card-header {
+  background-color: dodgerblue;
+  color: black;
+  font-weight: bold; font-size: 1.2rem;
+}
+
+
+.card-body {
+  background-color: #6fc2f3;
+  color: black;
+  font-weight: normal; font-size: 1.1rem;
+
+}
+
+.form-control {
+  border: 1px solid #b3d7ff;
+  color: #004085;
+}
+
+.fa-trash {
+  color: black;
+}
+
+.fa-save {
+  color: black;
+}
+
+.text-left-activities {
+  border: 1px solid gray;
+  background: linear-gradient(135deg, #1e90ff, #63b3ed);
+  padding: 15px;
+  margin-top: 15px;
+  color: black;
+}
+
+.text-left-favourites {
+  border: 1px solid #6bb7fa;
+  background: linear-gradient(135deg, #1e90ff, #63b3ed);
+  padding: 15px;
+  margin-top: 15px;
+  color: black
+}
+
+.input-group-text {
+  border: 1px solid black;
+  background-color: springgreen;
+}
+
+.form-control {
+  border:  1px solid black;
+  background: linear-gradient(135deg, #0affb3, #91fad7);
+}
 </style>
