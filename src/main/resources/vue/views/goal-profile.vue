@@ -36,25 +36,36 @@
             <div class="input-group-prepend">
               <span class="input-group-text" id="input-user-email">User ID</span>
             </div>
-            <input type="number" class="form-control" v-model="goal.goaluserid" name="goaluserid" placeholder="UserID"/>
+            <input type="number" class="form-control" v-model="goal.userid" name="userid" placeholder="UserID"/>
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text" id="input-user-name">Target Calories</span>
             </div>
-            <input type="number" class="form-control" v-model="goal.goaltargetCalories" name="goaltargetCalories" placeholder="Calories"/>
+            <input type="number" class="form-control" v-model="goal.targetCalories" name="targetCalories" placeholder="Calories"/>
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text" id="input-user-email">Recommended ID</span>
             </div>
-            <input type="number" class="form-control" v-model="goal.goalrecommendedid" name="goalrecommendedid" placeholder="Recommended Activity ID"/>
+            <input type="number" class="form-control" v-model="goal.recommendedid" name="recommendedid" placeholder="Recommended Activity ID"/>
           </div>
         </form>
 
-        <div v-if="recommendedActivity" class="mt-3 p-2 border rounded bg-white">
-          <h5>Recommended Activity</h5> <p><strong>Description:</strong> {{ recommendedActivity.description }}
-        </p> <p><strong>Duration:</strong> {{ recommendedActivity.duration }} minutes</p>
+        <div v-if="recommendedActivity" class="recommended-activity">
+          <div class= "Recommended-Title">
+          <h5><i class="fas fa-check-circle" style="color:rgba(1,188,1,0.75);"></i>
+                Recommended Activity
+              <i class="fas fa-check-circle" style="color:rgba(1,188,1,0.75)"></i>
+          </h5>
+          </div>
+          <p> Description: {{ recommendedActivity.description }} <br>
+            <small class="text-muted">Builds endurance <i class="fas fa-check" style="color:#00ff00"></i></small>
+          </p>
+          <p> Calories: {{ recommendedActivity.targetCalories }} <br>
+            <small class="text-muted">Best match for calorie goal <i class="fas fa-check" style="color:#00ff00"></i></small>
+            <div class="recommended-activity-id">ID: {{ recommendedActivity.id}} </div>
+          </p>
         </div>
       </div>
     </div>
@@ -75,7 +86,7 @@ app.component("goal-profile", {
     const url = `/api/goals/${goalId}`
     axios.get(url)
         .then(res => {
-          this.goal = res.data
+          this.goal = res.data;
           this.getRecommendedActivity();
         })
         .catch(error => {
@@ -90,9 +101,9 @@ app.component("goal-profile", {
       const url = `/api/goals/${goalId}`
       axios.patch(url,
           {
-            userid: this.goal.goaluserid,
-            targetCalories: this.goal.goaltargetCalories,
-            recommendedid: this.goal.goalrecommendedid
+            userid: this.goal.userid,
+            targetCalories: this.goal.targetCalories,
+            recommendedid: this.goal.recommendedid
           })
           .then(response =>
               this.goal.push(response.data))
@@ -181,5 +192,22 @@ app.component("goal-profile", {
 .form-control {
   border:  1px solid black;
   background: linear-gradient(135deg, #0affb3, #91fad7);
+}
+
+.recommended-activity {
+  background-color: #0a83fb;
+  border: 1px solid lightgray;
+  border-radius: 12px;
+  padding: 12px;
+  max-height: 180px;
+}
+
+.Recommended-Title {
+  text-align: center;
+}
+
+.recommended-activity-id {
+  text-align: end;
+  margin-top: -32px;
 }
 </style>
