@@ -58,12 +58,12 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: target-artifact
-          path: target
+          name: jacoco-report
+          path: target/site/jacoco
           
       - uses: PavanMudigonda/jacoco-reporter@v5.0
         with:
-          coverage_results_path: target/site/jacoco/jacoco.xml
+          coverage_results_path: target/site/jacoco.xml
           coverage_report_name: Coverage
           coverage_report_title: JaCoCo
           minimum_coverage: 20
@@ -96,7 +96,7 @@ jobs:
     - name: Download build artifact
       uses: actions/download-artifact@v4
       with:
-        name: target-artifact
+        name: app-jar
         path: target/
 
     - name: OpenShift Client Installer
