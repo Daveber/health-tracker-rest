@@ -27,15 +27,6 @@ jobs:
         
     - name: Build the application with Maven
       run: mvn clean package -DskipTests
-    
-    - name: Run tests with Jacoco
-      run: mvn test jacoco:report
-
-    - name: Upload Jacoco coverage
-      uses: actions/upload-artifact@v4
-      with:
-        name: jacoco-report
-        path: target/site/jacoco.xml
         
   documentation:
     runs-on: ubuntu-latest
@@ -51,23 +42,7 @@ jobs:
         with:
           name: KDoc Documentation Site
           path: target/dokka
-  
-  coverage: 
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: jacoco-report
-          path: target/site/jacoco
-          
-      - uses: PavanMudigonda/jacoco-reporter@v5.0
-        with:
-          coverage_results_path: target/site/jacoco.xml
-          coverage_report_name: Coverage
-          coverage_report_title: JaCoCo
-          minimum_coverage: 20
-          fail_below_threshold: true
+
           
   test:
     name: Automated Testing
@@ -86,6 +61,29 @@ jobs:
       - name: Run Tests
         run: mvn test
 
+  coverage: 
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: jacoco report creation
+        run: mvn test jacoco:report
+
+      - name: Archive jacoco report
+        uses: actions/upload-artifact@v4.4.2
+        with:
+          name: jacoco report
+          path: target/site
+      
+      - uses: PavanMudigonda/jacoco-reporter@v5.0
+        with:
+          coverage_results_path: target/site/jacoco.xml
+          coverage_report_name: Coverage
+          coverage_report_title: JaCoCo
+          minimum_coverage: 20
+          fail_below_threshold: true
+          
   deploy:
     name: Deploy to OpenShift
     needs: test
