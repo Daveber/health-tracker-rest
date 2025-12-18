@@ -1,6 +1,5 @@
 <template id="activity-overview">
   <app-layout>
-
     <div class="card bg-light mb-3">
       <div class="card-header bg-primary text-black">
         <div class="row">
@@ -29,13 +28,13 @@
             <div class="input-group-prepend">
               <span class="input-group-text" id="input-activityid">Duration</span>
             </div>
-            <input type="email" class="form-control" v-model="formData.duration" name="duration" placeholder="Duration"/>
+            <input type="number" class="form-control" v-model="formData.duration" name="duration" placeholder="Duration"/>
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text" id="input-activity-calories">Calories</span>
             </div>
-            <input type="text" class="form-control" v-model="formData.calories" name="Calories" placeholder="Calories"/>
+            <input type="number" class="form-control" v-model="formData.calories" name="Calories" placeholder="Calories"/>
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -47,7 +46,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text" id="input-activity-userid">UserID</span>
             </div>
-            <input type="text" class="form-control" v-model="formData.userId" name="User ID" placeholder="User ID"/>
+            <input type="number" class="form-control" v-model="formData.userId" name="User ID" placeholder="User ID"/>
           </div>
         </form>
         <button rel="tooltip" title="Update" class="btn btn-info btn-simple btn-link" @click="addActivity()">Add Activity</button>
