@@ -62,7 +62,7 @@
           <p> Description: {{ recommendedActivity.description }} <br>
             <small class="text-muted">Builds endurance <i class="fas fa-check" style="color:#00ff00"></i></small>
           </p>
-          <p> Calories: {{ recommendedActivity.targetCalories }} <br>
+          <p> Calories: {{ recommendedActivity.calories }} <br>
             <small class="text-muted">Best match for calorie goal <i class="fas fa-check" style="color:#00ff00"></i></small>
             <div class="recommended-activity-id">ID: {{ recommendedActivity.id}} </div>
           </p>

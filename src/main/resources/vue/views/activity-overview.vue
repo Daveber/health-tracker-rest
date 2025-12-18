@@ -1,6 +1,5 @@
 <template id="activity-overview">
   <app-layout>
-
     <div class="card bg-light mb-3">
       <div class="card-header bg-primary text-black">
         <div class="row">
@@ -16,7 +15,8 @@
           </div>
         </div>
       </div>
-      <div class="card-body" :class="{'d-none': hideForm}">
+
+      <div class="card-body add-activity" :class="{'d-none': hideForm}">
         <form id="addActivity">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -28,13 +28,13 @@
             <div class="input-group-prepend">
               <span class="input-group-text" id="input-activityid">Duration</span>
             </div>
-            <input type="email" class="form-control" v-model="formData.duration" name="duration" placeholder="Duration"/>
+            <input type="number" class="form-control" v-model="formData.duration" name="duration" placeholder="Duration"/>
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text" id="input-activity-calories">Calories</span>
             </div>
-            <input type="text" class="form-control" v-model="formData.calories" name="Calories" placeholder="Calories"/>
+            <input type="number" class="form-control" v-model="formData.calories" name="Calories" placeholder="Calories"/>
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -46,7 +46,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text" id="input-activity-userid">UserID</span>
             </div>
-            <input type="text" class="form-control" v-model="formData.userId" name="User ID" placeholder="User ID"/>
+            <input type="number" class="form-control" v-model="formData.userId" name="User ID" placeholder="User ID"/>
           </div>
         </form>
         <button rel="tooltip" title="Update" class="btn btn-info btn-simple btn-link" @click="addActivity()">Add Activity</button>
@@ -66,6 +66,9 @@
               </a>
               <button class="btn btn-delete" @click="deleteActivity(activity, index)">
                 <i class="fas fa-trash"></i> Delete
+              </button>
+              <button class="btn btn-add-favourite" @click="addFavourite(activity.id)">
+                <i class="fas fa-heart favourite-heart"></i>
               </button>
             </div>
           </div>
@@ -121,6 +124,30 @@ app.component("activity-overview", {
           })
           .then(response => {
             this.activities.push(response.data)
+            this.hideForm=true;
+          })
+          .catch(error => {
+            console.log(error)
+          })
+    },
+
+    addFavourite: function (activityID) {
+      const url = '/api/favourites';
+      const userID = prompt("Enter user id to add favourite:");
+
+      if (!userID) {
+        alert("User ID is required to add favourite");
+        return;
+      }
+
+      axios.post(url,
+          {
+            userid: userID,
+            activityid: activityID
+          })
+          .then(response => {
+            this.favourites.push(response.data)
+            alert("Activity added to favourites");
             this.hideForm=true;
           })
           .catch(error => {
@@ -182,6 +209,28 @@ app.component("activity-overview", {
   background-position: center;
   background-repeat: no-repeat;
   min-height: 100vh;
+}
+
+.favourite-heart {
+  color: red;
+}
+
+.add-activity {
+  background: linear-gradient(180deg, #49adfb, springgreen);
+}
+
+.input-group-text {
+  border: 1px solid black;
+  background-color: springgreen;
+}
+
+.form-control {
+  border:  1px solid black;
+  background: linear-gradient(135deg, #0affb3, #91fad7);
+}
+
+.btn-add-favourite:hover {
+  background-color: #00da00;
 }
 
 </style>
