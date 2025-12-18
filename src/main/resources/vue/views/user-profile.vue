@@ -49,22 +49,32 @@
 
         <div class="card-footer text-left-activities">
           <p v-if="activities.length === 0"> No activities yet...</p>
-          <p v-if="activities.length > 0">  <i class="fas fa-running"></i> Activities <i class="fas fa-running"></i> </p>
+          <p v-if="activities.length > 0">  <i class="fas fa-running running-activity"></i> Activities <i class="fas fa-running running-activity"></i> </p>
           <ul>
-            <li v-for="activity in activities">
-              {{ activity.description }} for {{ activity.duration }} minutes
-            </li>
+            <div v-for="activity in activities">
+              <i class="fas fa-running running-activities"></i> {{ activity.description }} for {{ activity.duration }} minutes <i class="fas fa-running running-activities"></i>
+            </div>
           </ul>
         </div>
 
         <div class="card-footer text-left-favourites">
           <p v-if="activities.length === 0"> No Favourites yet...</p>
-          <p v-if="activities.length > 0"> Favourites</p>
+          <p v-if="activities.length > 0"> <i class="fas fa-heart favourite-activity"></i> Favourites <i class="fas fa-heart favourite-activity"></i> </p>
           <ul>
-            <li v-for="activity in favourites">
-              <i class="fas fa-heart"></i> Activity id: {{ activity.id }} Activity Name: {{activity.description}} <i class="fas fa-heart"></i>
-            </li>
+            <div v-for="activity in favourites">
+              <i class="fas fa-heart favourite-activities"></i> {{activity.description}} <i class="fas fa-heart favourite-activities"></i>
+            </div>
           </ul>
+        </div>
+
+        <div class="card-footer text-left-goals">
+          <p v-if="!goal"> No Goal</p>
+          <p v-else > <i class="fas fa-bullseye goal-bullseye"></i> Goal <i class="fas fa-bullseye goal-bullseye"></i> </p>
+          <div v-if="goal">
+              <i class="fas fa-bullseye goals-bullseye">
+              </i> Burn {{goal.targetCalories}} Calories
+              <i class="fas fa-bullseye goals-bullseye"></i>
+          </div>
         </div>
 
       </div>
@@ -80,6 +90,7 @@ app.component("user-profile", {
     noUserFound: false,
     activities: [],
     favourites: [],
+    goal: null,
   }),
   created: function () {
     const userId = this.$javalin.pathParams["user-id"];
@@ -95,9 +106,11 @@ app.component("user-profile", {
         .then(res => this.activities = res.data)
         .catch(error => {
           console.log("No activities added yet: " + error)
+          this.activities = [];
         })
 
     this.getUserfavourites();
+    this.getUsergoals();
   },
 
   methods: {
@@ -145,9 +158,22 @@ app.component("user-profile", {
 
         this.favourites = responses.map(response => response.data);
       } catch (error) {
+        this.favourites = [];
         console.log("User has no favourites.." + error)
       }
-    }
+    },
+
+    async getUsergoals() {
+      const userId = this.$javalin.pathParams["user-id"];
+      try {
+        const response = await axios.get(`/api/users/${userId}/goals`);
+        this.goal = response.data
+      } catch (error) {
+        this.goal = null;
+        console.log("User has no goals")
+      }
+    },
+
   }
 });
 </script>
@@ -198,7 +224,7 @@ app.component("user-profile", {
 }
 
 .text-left-favourites {
-  border: 1px solid #6bb7fa;
+  border: 1px solid gray;
   background: linear-gradient(135deg, #1e90ff, #63b3ed);
   padding: 15px;
   margin-top: 15px;
@@ -213,5 +239,33 @@ app.component("user-profile", {
 .form-control {
   border:  1px solid black;
   background: linear-gradient(135deg, #0affb3, #91fad7);
+}
+
+.running-activity {
+  color: #0AFFB3FF;
+  font-size: x-large;
+}
+
+.favourite-activity {
+  color: red;
+  font-size: large;
+}
+
+.running-activities {
+  color: #0affb3;
+  font-size: medium;
+}
+
+.favourite-activities {
+  color: red;
+  font-size: medium;
+}
+
+.text-left-goals {
+  border: 1px solid gray;
+  background: linear-gradient(135deg, #1e90ff, #63b3ed);
+  padding: 15px;
+  margin-top: 15px;
+  color: black;
 }
 </style>
