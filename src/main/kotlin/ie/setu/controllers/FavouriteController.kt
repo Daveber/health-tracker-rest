@@ -20,7 +20,9 @@ object FavouriteController {
     private val activityDAO = ActivityDAO()
     private val favouriteDAO = FavouriteDAO()
 
-    /** Get all favourites **/
+    /**
+     * Get all favourites
+     */
     fun getAllFavourites(ctx: Context) {
         val favourites = favouriteDAO.getAll()
 
@@ -33,7 +35,9 @@ object FavouriteController {
         ctx.json(favourites)
     }
 
-    /** Get favourite with specified favourite id **/
+    /**
+     * Get favourite with specified favourite id
+     */
     fun getFavouriteByFavouriteId(ctx: Context) {
         val favourite = favouriteDAO.findByFavouriteId(ctx.pathParam("favourite-id").toInt())
         if (favourite != null) {
@@ -44,7 +48,9 @@ object FavouriteController {
         }
     }
 
-    /** Get all favourites with specified user id **/
+    /**
+     * Get all favourites with specified user id
+     */
     fun getFavouritesByUserId(ctx: Context) {
         val favourites = favouriteDAO.findByUserId(ctx.pathParam("user-id").toInt())
 
@@ -56,7 +62,9 @@ object FavouriteController {
         }
     }
 
-    /** Get all favourites with specified Activity id **/
+    /**
+     * Get all favourites with specified Activity id
+     */
     fun getFavouritesByActivityId(ctx: Context) {
         val favourites = favouriteDAO.findByActivityId(ctx.pathParam("activity-id").toInt())
 
@@ -68,7 +76,9 @@ object FavouriteController {
         }
     }
 
-    /** Add favourite **/
+    /**
+     * Add favourite
+     */
     fun addFavourite(ctx: Context) {
         val favourite : Favourite = jsonToObject(ctx.body())
         val favouriteId = favouriteDAO.save(favourite)
@@ -84,8 +94,7 @@ object FavouriteController {
 
     /**
      * Delete favourite with specified favourite id
-      */
-
+     */
     fun deleteFavouriteById(ctx: Context) {
         if (favouriteDAO.deletebyId(ctx.pathParam("favourite-id").toInt()) != 0) {
             ctx.status(204)
@@ -94,7 +103,9 @@ object FavouriteController {
         }
     }
 
-    /** Delete all favourites with specified user id**/
+    /**
+     * Delete all favourites with specified user id
+     */
     fun deleteFavouritesByUserId(ctx: Context) {
         if (favouriteDAO.deleteAllFavouritesByUserId(ctx.pathParam("user-id").toInt()) != 0) {
             ctx.status(204)
@@ -103,7 +114,9 @@ object FavouriteController {
         }
     }
 
-    /** Delete all Favourites with specified activity id **/
+    /**
+     * Delete all Favourites with specified activity id
+     */
     fun deleteFavouriteByActivityId(ctx: Context) {
         if (favouriteDAO.deleteAllFavouritesByActivityId(ctx.pathParam("activity-id").toInt()) != 0) {
             ctx.status(204)
