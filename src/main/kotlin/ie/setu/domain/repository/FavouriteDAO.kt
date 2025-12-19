@@ -9,7 +9,10 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 class FavouriteDAO {
 
-    /** get all Favourites **/
+    /**
+     * Get all favourites
+     * @return list of favourites
+     */
     fun getAll(): ArrayList<Favourite> {
         val favouritesList: ArrayList<Favourite> = arrayListOf()
         transaction {
@@ -19,7 +22,10 @@ class FavouriteDAO {
         return favouritesList
     }
 
-    /** get favourite by id **/
+    /**
+     * get favourite by [id]
+     * @return favourite
+     */
     fun findByFavouriteId(id: Int): Favourite? {
         return transaction {
             Favourites
@@ -29,7 +35,10 @@ class FavouriteDAO {
         }
     }
 
-    /** get favourites by userId **/
+    /**
+     * get favourite by [userId]
+     */
+
     fun findByUserId(userId: Int): List<Favourite> {
         return transaction {
             Favourites
@@ -38,7 +47,10 @@ class FavouriteDAO {
         }
     }
 
-    /** find by activity id **/
+    /**
+     * find favourite by [activityId]
+     * @return list of favourites
+     */
     fun findByActivityId(activityId: Int): List<Favourite> {
         return transaction {
             Favourites
@@ -47,7 +59,10 @@ class FavouriteDAO {
         }
     }
 
-    /** save favourite  **/
+    /**
+     * save favourite
+     * @return id of added favourite
+     */
     fun save(favourite: Favourite): Int? {
         return transaction {
             Favourites.insert {
@@ -57,21 +72,27 @@ class FavouriteDAO {
         }
     }
 
-    /** delete all Favourites with associated user id **/
+    /**
+     * delete all favourites with associated [userId]
+     */
     fun deleteAllFavouritesByUserId(userId: Int?) : Int? {
         return transaction {
             Favourites.deleteWhere { Favourites.userId eq userId as Int }
         }
     }
 
-    /** delete all Favourites with associated activity id **/
+    /**
+     * delete all favourites with associated [activityId]
+     */
     fun deleteAllFavouritesByActivityId(activityId: Int?) : Int? {
         return transaction {
             Favourites.deleteWhere { Favourites.activityId eq activityId as Int }
         }
     }
 
-    /** delete favourite by favourite id **/
+    /**
+     * delete favourite with corresponding [id]
+     */
     fun deletebyId(id: Int?) : Int? {
         return transaction {
             Favourites.deleteWhere { Favourites.id eq id as Int }

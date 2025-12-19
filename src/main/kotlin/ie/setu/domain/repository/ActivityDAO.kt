@@ -9,7 +9,10 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 class ActivityDAO {
 
-    /** get all activities **/
+    /**
+     * get all activities
+     * @return list of activities
+     */
     fun getAll(): ArrayList<Activity> {
         val activitiesList: ArrayList<Activity> = arrayListOf()
         transaction {
@@ -19,7 +22,10 @@ class ActivityDAO {
             return activitiesList
     }
 
-    /** find activity by id test written **/
+    /**
+     * find activity id [id]
+     * @return activity
+     */
     fun findByActivityId(id: Int): Activity? {
         return transaction {
             Activities
@@ -29,7 +35,10 @@ class ActivityDAO {
         }
     }
 
-    /** find activities by user id it test written **/
+    /**
+     * find activity by [userId]
+     * @return list of activities
+     */
     fun findByUserId(userId: Int): List<Activity> {
             return transaction {
                 Activities
@@ -38,7 +47,10 @@ class ActivityDAO {
             }
         }
 
-    /** save Activity Test written**/
+    /**
+     * save activity
+     * @return added activity id
+     */
     fun save(activity: Activity): Int? {
         return transaction {
             Activities.insert {
@@ -51,21 +63,27 @@ class ActivityDAO {
         }
     }
 
-    /** Delete Activities associated with a user id **/
+    /**
+     * delete acc activities associated with a specific user [id]
+     */
     fun deleteAllAssociatedByUserId(id: Int?) : Int? {
         return transaction {
             Activities.deleteWhere { Activities.userId eq id as Int }
         }
     }
 
-    /** Delete Activity with specific Activity id test written**/
+    /**
+     * delete activity by activity [id]
+     */
     fun deleteByActivityId(id: Int?) : Int? {
         return transaction {
             Activities.deleteWhere { Activities.id eq id as Int}
         }
     }
 
-    /** Update Activity with specific ID test written **/
+    /**
+     * Update activity with specific activity [id]
+     */
     fun update(id: Int, activity: Activity) : Int? {
        return transaction {
             Activities.update({ Activities.id eq id }) {

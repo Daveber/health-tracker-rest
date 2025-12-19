@@ -16,6 +16,7 @@ class GoalDAO {
 
     /**
      * get all Goals
+     * @return list of goals
      */
     fun getAll(): ArrayList<Goal> {
         val goalslist: ArrayList<Goal> = arrayListOf()
@@ -29,6 +30,7 @@ class GoalDAO {
 
     /**
      * find goal by goal [id]
+     * @return goal
      */
     fun findByGoalId(id: Int): Goal? {
         return transaction {
@@ -40,6 +42,7 @@ class GoalDAO {
 
     /**
      * find goal by user [id]
+     * @return goal
      */
     fun findByUserId(id: Int): Goal? {
         return transaction {
@@ -52,6 +55,7 @@ class GoalDAO {
 
     /**
      * save goal and return [goal] id
+     * @return added goal id
      */
     fun save(goal: Goal): Int? {
         return transaction {
@@ -83,6 +87,7 @@ class GoalDAO {
 
     /**
      * get Activity recommendation based on [targetCalories]
+     * @return activity
      */
     fun getRecommendation(targetCalories: Int): Activity {
         return transaction {
@@ -94,6 +99,7 @@ class GoalDAO {
 
     /**
      * get Activity recommendation based on [targetCalories] return id
+     * @return id of recommended activity
      */
     fun getRecommendationId(targetCalories: Int): Int {
         return transaction {

@@ -12,7 +12,9 @@ object UserController {
     private val userDao = UserDAO()
     private val mapper = jacksonObjectMapper() //user for old mapper before jsonToObject helper in JSONUtilities.kt
 
-    /** Get all users **/
+    /**
+     * Get all users
+     */
     fun getAllUsers(ctx: Context) {
         val users = userDao.getAll()
 
@@ -24,7 +26,9 @@ object UserController {
         ctx.json(users)
     }
 
-    /** Get User by user id **/
+    /**
+     * Get user by user id
+     */
     fun getUserByUserId(ctx: Context) {
         val user = userDao.findUserById(ctx.pathParam("user-id").toInt())
         if (user != null) {
@@ -35,7 +39,9 @@ object UserController {
         }
     }
 
-    /** Get user by user email **/
+    /**
+     * Get user by user email
+     */
     fun getUserbyUserEmail(ctx: Context) {
         val email = userDao.findUserByEmail(ctx.pathParam("email"))
         if (email != null) {
@@ -46,7 +52,9 @@ object UserController {
         }
     }
 
-    /** Add User **/
+    /**
+     * Add User
+     */
     fun addUser(ctx: Context) {
         val user : User = jsonToObject(ctx.body())
         val userId = userDao.save(user)
@@ -57,7 +65,9 @@ object UserController {
         }
     }
 
-    /** Update user **/
+    /**
+     * Update user
+     */
     fun updateUser(ctx: Context) {
         val foundUser : User = jsonToObject(ctx.body())
         if ((userDao.update(id = ctx.pathParam("user-id").toInt(), user=foundUser)) != 0) {
@@ -67,7 +77,9 @@ object UserController {
         }
     }
 
-    /** Delete user **/
+    /**
+     * Delete user
+     */
     fun deleteUser(ctx: Context){
         if (userDao.delete(ctx.pathParam("user-id").toInt()) != 0) {
             ctx.status(204)
