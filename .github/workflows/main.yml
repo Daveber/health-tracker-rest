@@ -138,10 +138,15 @@ jobs:
     - name: Set project to msc-agile-sem1-25-dberes
       run: |
         oc project msc-agile-sem1-25-dberes
-    - name: Build and deploy the app to OpenShift
-      run: |
-        # OpenShift setup uses Source-to-Image (S2I) 
-        oc start-build health-tracker-rest --from-dir=target/ --follow
+        
+    # - name: Build and deploy the app to OpenShift
+    #   run: |
+    #     # OpenShift setup uses Source-to-Image (S2I) 
+    #     oc start-build health-tracker-rest --from-dir=target/ --follow
+
+    - name: Build and deploy the app to OpenShift 
+      run:  |
+        oc start-build health-tracker-rest --follow
     
     - name: Check deployment status
       run: |
