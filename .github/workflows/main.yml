@@ -43,11 +43,11 @@ jobs:
       - name: Dokka with Maven
         run: mvn -B dokka:dokka
         
-      - name: Archive KDoc Documentation
-        uses: actions/upload-artifact@v4.4.2
-        with:
-          name: KDoc Documentation Site
-          path: target/dokka
+      # - name: Archive KDoc Documentation
+      #   uses: actions/upload-artifact@v4.4.2
+      #   with:
+      #     name: KDoc Documentation Site
+      #     path: target/dokka
 
           
   test:
@@ -142,13 +142,13 @@ jobs:
           ls -R
 
       - name: Run spotless check
-        run: mvn spotless::check
+        run: mvn spotless:check
 
-      # - name: Upload report
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: owasp-report
-      #     path: target/owasp-report
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: owasp-report
+          path: target/owasp-report
       
   deploy:
     name: Deploy to OpenShift
