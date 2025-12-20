@@ -118,6 +118,13 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: PWD DEBUG
+        run: |
+          echo "Current Directory:"
+          pwd
+          echo "Files:"
+          ls -R
+
       - name: Run spotless check
         run: mvn spotless::check
 
