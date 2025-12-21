@@ -121,11 +121,20 @@ jobs:
       - name: Run OWASP Checks
         run: mvn org.owasp:dependency-check-maven:check
 
+      - name: DEBUG upload of report security
+        run: ls -R target
+        
+      - name: Debug upload of report 1
+        run: ls
+
+      - name: Debug upload of report 2
+        run: ls target
+
       - name: Upload report
         uses: actions/upload-artifact@v4
         with:
           name: owasp-report
-          path: target/owasp-report
+          path: target/dependency-check-report.html
 
 
   linter-check:
