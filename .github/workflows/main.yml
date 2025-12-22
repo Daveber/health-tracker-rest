@@ -1,4 +1,4 @@
-name: Build and Deploy to OpenShift Custom
+name: Build and Deploy to OpenShift
 
 on:
   push:
