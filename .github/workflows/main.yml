@@ -88,7 +88,7 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: jacoco report creation
-        run: mvn jacoco:report
+        run: mvn test jacoco:report
 
       - name: Archive jacoco report
         uses: actions/upload-artifact@v4.4.2
