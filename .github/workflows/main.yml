@@ -95,6 +95,15 @@ jobs:
         with:
           name: jacoco.xml
           path: target/site/jacoco
+
+      - name: Debug jacoco
+        run: ls
+        
+      - name: Debug jacoco 2
+        run: ls -R target/site
+
+      - name: Debug jacoco 3
+        run: ls -R target/site/jacoco
       
       - uses: PavanMudigonda/jacoco-reporter@v5.0
         with:
