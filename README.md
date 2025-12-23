@@ -1,5 +1,7 @@
 Downlaod Latest Tag Release
 
+OpenAPI documented in openapi_documentation.yaml file
+
 Local Hosting:
 for local hosting this should work out of the box when you run the project.
 
