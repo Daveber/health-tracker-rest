@@ -98,15 +98,6 @@ jobs:
         with:
           name: jacoco.xml
           path: target/site/jacoco
-
-      - name: Debug jacoco
-        run: ls
-        
-      - name: Debug jacoco 2
-        run: ls -R target/site
-
-      - name: Debug jacoco 3
-        run: ls -R target/site/jacoco
       
       - uses: PavanMudigonda/jacoco-reporter@v5.0
         with:
@@ -135,18 +126,12 @@ jobs:
 
       - name: DEBUG upload of report security
         run: ls -R target
-        
-      - name: Debug upload of report 1
-        run: ls
 
-      - name: Debug upload of report 2
-        run: ls target
-
-      # - name: Upload report
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: owasp-report
-      #     path: target/dependency-check-report.html
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: owasp-report
+          path: target/dependency-check-report.html
 
 
   linter-check:
